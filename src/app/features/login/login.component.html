@@ -1,0 +1,19 @@
+<section class="login-section">
+    <div class="login-panel">
+      <h2>Login</h2>
+      <form>
+        <div>
+          <label for="username">Username:</label>
+          <input type="text" id="username" [(ngModel)]="username" name="username">
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password">
+        </div>
+        <button type="submit" (click)="login()">Login</button>
+      </form>
+    </div>
+    <div class="image-container">
+      <img src="assets/login-image.jpg" alt="Login Image">
+    </div>
+</section>
