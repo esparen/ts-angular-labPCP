@@ -18,4 +18,9 @@ export class LoginComponent {
     console.log('Username:', this.username);
     console.log('Password:', this.password);
   }
+
+  forgotPassword() {
+    console.log('Forgot password');
+  }
+  
 }

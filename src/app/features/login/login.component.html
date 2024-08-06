@@ -2,15 +2,21 @@
     <div class="login-panel">
       <h2>Login</h2>
       <form>
-        <div>
-          <label for="username">Username:</label>
+        <div id="username_div">
+          <label for="username">Email:</label>
           <input type="text" id="username" [(ngModel)]="username" name="username">
         </div>
-        <div>
-          <label for="password">Password:</label>
+        <div id="password_div">
+          <label for="password">Senha:</label>
           <input type="password" id="password" [(ngModel)]="password" name="password">
         </div>
-        <button type="submit" (click)="login()">Login</button>
+        <div id="forgot_password_div">
+          <a href="javascript:void(0);" (click)="forgotPassword()"> 
+            <span class="link">Esqueci minha senha</span>
+          </a>
+        </div>
+        <button type="submit" (click)="login()">Entrar</button>
+        
       </form>
     </div>
     <div class="image-container">
