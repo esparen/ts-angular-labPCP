@@ -10,10 +10,17 @@
           <label for="password">Senha:</label>
           <input type="password" id="password" [(ngModel)]="password" name="password">
         </div>
-        <div id="forgot_password_div">
-          <a href="javascript:void(0);" (click)="forgotPassword()"> 
-            <span class="link">Esqueci minha senha</span>
-          </a>
+        <div id="login_form_footer">
+          <div id="forgot_password_div">
+            <a href="javascript:void(0);" (click)="forgotPassword()"> 
+              <span class="link">Esqueci minha senha</span>
+            </a>
+          </div>
+          <div id="forgot_password_div">
+            <a href="javascript:void(0);" (click)="signUp()"> 
+              <span class="link">Criar nova conta</span>
+            </a>
+          </div>
         </div>
         <button type="submit" (click)="login()">Entrar</button>
         

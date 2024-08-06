@@ -20,7 +20,6 @@ export interface LoginData {
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-
 export class LoginComponent {
   username: string = '';
   password: string = '';
@@ -44,5 +43,17 @@ export class LoginComponent {
       console.log('Forgot password dialog was closed');
     });
   }
-  
+
+  signUp() {  
+    const dialogRef = this.dialog.open<IDialogData>(DialogComponent, {
+      minWidth: '300px',
+      data: {
+        message: 'Funcionalidade não implementada',
+        actions: [{ label: 'OK', action: 'close', visible: true }],
+      },
+    });
+    dialogRef.closed.subscribe((result) => {
+      console.log('Sign up dialog was closed');
+    });
+  }
 }
