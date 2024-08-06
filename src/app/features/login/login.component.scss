@@ -87,3 +87,17 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 }
+
+:host {
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+app-dialog {
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
