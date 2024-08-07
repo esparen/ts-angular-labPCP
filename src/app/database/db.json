@@ -5,13 +5,13 @@
     { "id": 3, "name": "Aluno" }
   ],
   "usuario": [
-    { "id": 1, "name": "Alice", "papelId": 3 },
-    { "id": 2, "name": "Bob", "papelId": 3 },
-    { "id": 3, "name": "Charlie", "papelId": 3 },
-    { "id": 4, "name": "Mestre Zenai", "papelId": 2 },
-    { "id": 5, "name": "Principe Barundar Orcbane", "papelId": 2 },
-    { "id": 6, "name": "Conde Varian Jeggare", "papelId": 2 },
-    { "id": 7, "name": "Narrador - DM", "papelId": 1 }
+    { "id": 1, "name": "Alice", "papelId": 3, "password": "123456"},
+    { "id": 2, "name": "Bob", "papelId": 3, "password": "123456" },
+    { "id": 3, "name": "Charlie", "papelId": 3, "password": "123456" },
+    { "id": 4, "name": "Mestre Zenai", "papelId": 2, "password": "112233" },
+    { "id": 5, "name": "Principe Barundar Orcbane", "papelId": 2, "password": "112233" },
+    { "id": 6, "name": "Conde Varian Jeggare", "papelId": 2, "password": "112233" },
+    { "id": 7, "name": "Narrador - DM", "papelId": 1, "password": "1q2w3e" }
   ],
   "docente": [
     { "id": 1, "usuarioId": 4 },
