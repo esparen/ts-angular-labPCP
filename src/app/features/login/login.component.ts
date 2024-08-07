@@ -12,7 +12,7 @@ import {
   IDialogData,
 } from '../../core/components/dialog/dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { LoginService, IUser } from '../../core/services/login.service';
+import { AuthService, IUser } from '../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -73,7 +73,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private dialog: Dialog,
-    private loginService: LoginService,
+    private authService: AuthService,
     private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
@@ -84,7 +84,7 @@ export class LoginComponent {
 
   signIn() {
     const { username, password } = this.loginForm.value;
-    this.loginService
+    this.authService
       .signIn(username, password)
       .subscribe((user: IUser | null) => {
         if (user) {

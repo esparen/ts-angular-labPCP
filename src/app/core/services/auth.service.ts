@@ -24,7 +24,7 @@ export interface IUser {
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
   private apiUsersUrl = 'http://localhost:3000/usuario';
   private apiRolesUrl = 'http://localhost:3000/papel';
 
