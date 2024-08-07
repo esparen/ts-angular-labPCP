@@ -57,7 +57,7 @@ export class LoginService {
 
   private fetchUserRole(user: IDbUser): Observable<IUser> {
     return this.http.get<IDbRole[]>(this.apiRolesUrl).pipe(
-      map((roles) => roles.find((role) => role.id === user.papelId)),
+      map((roles) => roles.find((role) => Number(role.id) === Number(user.papelId))),
       map((role) => ({
         id: user.id,
         name: user.name,
