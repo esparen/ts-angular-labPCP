@@ -12,13 +12,8 @@ import {
   IDialogData,
 } from '../../core/components/dialog/dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { LoginService } from '../../core/services/login.service';
+import { LoginService, IUser } from '../../core/services/login.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-export interface LoginData {
-  username: string;
-  password: string;
-}
 
 @Component({
   selector: 'app-login',
@@ -28,9 +23,52 @@ export interface LoginData {
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  loginForm: FormGroup;
   username: string = '';
   password: string = '';
+  loginForm: FormGroup;
+  formFields = [
+    {
+      id: 'username_div',
+      name: 'username',
+      label: 'Email',
+      type: 'text',
+      model: this.username,
+      errors: [
+        { type: 'required', message: 'Email é um campo obrigatório.' },
+        {
+          type: 'minlength',
+          message: 'Email deve conter ao menos 3 caracteres.',
+        },
+      ],
+    },
+    {
+      id: 'password_div',
+      name: 'password',
+      label: 'Senha',
+      type: 'password',
+      model: this.password,
+      errors: [
+        { type: 'required', message: 'É necessário digitar uma senha.' },
+        {
+          type: 'minlength',
+          message: 'Senha precisa ter ao menos 6 caracteres.',
+        },
+      ],
+    },
+  ];
+
+  footerActions = [
+    {
+      id: 'forgot_password_div',
+      label: 'Esqueci minha senha',
+      handler: this.forgotPassword.bind(this),
+    },
+    {
+      id: 'sign_up_div',
+      label: 'Criar nova conta',
+      handler: this.signUp.bind(this),
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -44,9 +82,34 @@ export class LoginComponent {
     });
   }
 
-  login() {
-    console.log('Username:', this.username);
-    console.log('Password:', this.password);
+  signIn() {
+    const { username, password } = this.loginForm.value;
+    this.loginService
+      .signIn(username, password)
+      .subscribe((user: IUser | null) => {
+        if (user) {
+          this.snackBar.open(
+            `Bem vinda, ${user.name}! Papel: ${user.role.name}`,
+            'Close',
+            { duration: 3000 }
+          );
+        } else {
+          this.snackBar.open(
+            'Usuário não encontrado ou senha inválida',
+            'Close',
+            { duration: 3000 }
+          );
+        }
+      });
+  }
+
+  isInvalid(fieldName: string): boolean | undefined {
+    const field = this.loginForm.get(fieldName);
+    return field?.invalid && field.touched;
+  }
+
+  hasError(fieldName: string, errorType: string): boolean {
+    return this.loginForm.get(fieldName)?.hasError(errorType) || false;
   }
 
   forgotPassword() {
@@ -56,9 +119,6 @@ export class LoginComponent {
         message: 'Funcionalidade não implementada',
         actions: [{ label: 'OK', action: 'close', visible: true }],
       },
-    });
-    dialogRef.closed.subscribe((result) => {
-      console.log('Forgot password dialog was closed');
     });
   }
 
@@ -70,22 +130,5 @@ export class LoginComponent {
         actions: [{ label: 'OK', action: 'close', visible: true }],
       },
     });
-    dialogRef.closed.subscribe((result) => {
-      console.log('Sign up dialog was closed');
-    });
-  }
-
-  signIn() {
-    if (this.loginForm.valid) {
-      const { username, password } = this.loginForm.value;
-      this.loginService.signIn(username, password).subscribe(user => {
-        if (user) 
-          this.snackBar.open(`Bem vindo, ${user.name}!`, 'Close', { duration: 5000 });
-        else
-          this.snackBar.open('Usuário não encontrado ou senha inválida', 'Close', { duration: 5000 });
-      });
-    } else {
-      this.snackBar.open('Dados incorretos, revise as mensagens de erro nos campos usuário e senha', 'Close', { duration: 5000 });
-    }
   }
 }
