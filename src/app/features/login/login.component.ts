@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import {
   ReactiveFormsModule,
   FormGroup,
@@ -14,11 +13,12 @@ import {
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { AuthService, IUser } from '../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, DialogModule],
+  imports: [CommonModule, ReactiveFormsModule, DialogModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -74,7 +74,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private dialog: Dialog,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -92,7 +93,9 @@ export class LoginComponent {
             `Bem vinda, ${user.name}! Papel: ${user.role.name}`,
             'Close',
             { duration: 3000 }
-          );
+          ).afterDismissed().subscribe(() => {
+            this.router.navigate(['/home']);
+          });
         } else {
           this.snackBar.open(
             'Usuário não encontrado ou senha inválida',
