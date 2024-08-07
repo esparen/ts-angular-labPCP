@@ -1,15 +1,36 @@
 <section class="login-section">
     <div class="login-panel">
       <h2>Login</h2>
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="signIn()">
         <div id="username_div">
           <label for="username">Email:</label>
-          <input type="text" id="username" [(ngModel)]="username" name="username">
+          <input 
+            type="text" 
+            id="username" 
+            formControlName="username"
+            [(ngModel)]="username" name="username"
+            [ngClass]="{'invalid-input': loginForm.get('username')?.invalid && loginForm.get('username')?.touched}"
+          >
+          <div *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched" class="error-message">
+            <span *ngIf="loginForm.get('username')?.errors?.['required']">Email é um campo obrigatório.</span>
+            <span *ngIf="loginForm.get('username')?.errors?.['minlength']">Email deve conter ao menos 3 caracteres.</span>
+          </div>
+        
         </div>
         <div id="password_div">
           <label for="password">Senha:</label>
-          <input type="password" id="password" [(ngModel)]="password" name="password">
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            [ngClass]="{'invalid-input': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+          >
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-message">
+            <span *ngIf="loginForm.get('password')?.errors?.['required']">É necessário digitar uma senha.</span>
+            <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Senha precisa ter ao menos 6 caracteres.</span>
+          </div>
         </div>
+          
         <div id="login_form_footer">
           <div id="forgot_password_div">
             <a href="javascript:void(0);" (click)="forgotPassword()"> 
@@ -22,7 +43,7 @@
             </a>
           </div>
         </div>
-        <button type="submit" (click)="login()">Entrar</button>
+        <button type="submit">Entrar</button>
         
       </form>
     </div>

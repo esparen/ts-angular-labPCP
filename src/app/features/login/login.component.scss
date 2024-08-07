@@ -96,6 +96,16 @@
       
 }
 
+.invalid-input {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
 .image-container {
   flex: 1;
   display: flex;
