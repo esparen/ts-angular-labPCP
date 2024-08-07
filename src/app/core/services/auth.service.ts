@@ -27,17 +27,24 @@ export interface IUser {
 export class AuthService {
   private apiUsersUrl = 'http://localhost:3000/usuario';
   private apiRolesUrl = 'http://localhost:3000/papel';
+  private currentUserKey = 'currentUser';
 
   constructor(private http: HttpClient) {}
 
   signIn(username: string, password: string): Observable<IUser | null> {
-    return this.findUser(username, password).pipe(
+    const userWithRole = this.findUser(username, password).pipe(
       switchMap((user) => (user ? this.fetchUserRole(user) : of(null))),
       catchError((error) => {
         console.error('Error during sign-in process:', error);
         return of(null);
       })
     );
+    if (userWithRole) {
+      userWithRole.subscribe((user) => {
+        localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+      });
+    }
+    return userWithRole;
   }
 
   private findUser(
@@ -57,12 +64,27 @@ export class AuthService {
 
   private fetchUserRole(user: IDbUser): Observable<IUser> {
     return this.http.get<IDbRole[]>(this.apiRolesUrl).pipe(
-      map((roles) => roles.find((role) => Number(role.id) === Number(user.papelId))),
+      map((roles) =>
+        roles.find((role) => Number(role.id) === Number(user.papelId))
+      ),
       map((role) => ({
         id: user.id,
         name: user.name,
         role: role || { id: 0, name: 'Unknown' },
       }))
     );
+  }
+
+  signOut(): void {
+    localStorage.removeItem(this.currentUserKey);
+  }
+
+  getCurrentUser(): IUser | null {
+    const userJson = localStorage.getItem(this.currentUserKey);    
+    return userJson ? JSON.parse(userJson) : null;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getCurrentUser();
   }
 }
