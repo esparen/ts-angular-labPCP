@@ -1,22 +1,64 @@
-<div class="container">
-  <h1>Home works</h1>
-  <div class="sidebar">
-    <!-- Sidebar content goes here -->
+<section id="statistics">
+  <mat-toolbar id="welcome-toolbar" class="mat-toolbar">
+    <span>Estatisticas</span>
+  </mat-toolbar>
+
+  <mat-divider></mat-divider>
+  <div class="card-container">
+    <mat-card *ngFor="let statistic of statistics" class="statistic-card">
+      <mat-card-header>
+        <mat-card-title>{{ statistic.title }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ statistic.detail }}</p>
+      </mat-card-content>
+    </mat-card>
   </div>
+</section>
 
-  <div class="content">
-    <div class="header">
-      <!-- Header content goes here -->
-    </div>
-
-    <div class="body">
-      <!-- Body content goes here -->
-    </div>
-
-    <div class="footer">
-      <!-- Footer content goes here -->
-    </div>
+<section id="student-listing">
+  <mat-toolbar class="mat-toolbar">
+    <span>Pesquisar aluno:</span>
+    <mat-form-field>
+      <mat-label>Buscar</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="studentSearchTerm"
+        placeholder="Buscar..."
+      />
+      <mat-icon
+        matSuffix
+        (click)="onSearch()"
+        aria-hidden="false"
+        aria-label="Pesquisar alunos"
+        >search</mat-icon
+      >
+    </mat-form-field>
+  </mat-toolbar>
+  <div id="student-card-container" class="card-container">
+    <mat-card *ngFor="let student of students" class="student-card">
+      <img
+        mat-card-image
+        src="{{ student.image }}"
+        alt="Photo of {{ student.name }}"
+      />
+      <mat-card-header>
+        <mat-card-title>{{ student.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        {{ student.age }} anos
+        <span
+          ><mat-icon
+            mat-icon-button
+            aria-hidden="false"
+            aria-label="phone"
+            fontIcon="phone"
+          ></mat-icon>
+          {{ student.phone }}</span
+        >
+        <button mat-stroked-button aria-label="Ver mais">ver mais</button>
+      </mat-card-content>
+    </mat-card>
   </div>
-
-  <button (click)="logout()">Logout</button>
-</div>
+</section>
