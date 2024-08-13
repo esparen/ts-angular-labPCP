@@ -11,7 +11,7 @@
     { "id": 4, "name": "Mestre Zenai", "papelId": 2, "password": "112233" },
     { "id": 5, "name": "Principe Barundar Orcbane", "papelId": 2, "password": "112233" },
     { "id": 6, "name": "Conde Varian Jeggare", "papelId": 2, "password": "112233" },
-    { "id": 7, "name": "Narrador - DM", "papelId": 1, "password": "1q2w3e" }
+    { "id": 7, "name": "narrador", "papelId": 1, "password": "1q2w3e" }
   ],
   "docente": [
     { "id": 1, "usuarioId": 4 },
