@@ -1,3 +1,14 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Faz o container ocupar toda a altura da tela */
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+
 .login-section {
   display: flex;
   justify-content: space-between;
@@ -118,13 +129,6 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-}
-
-:host {
-  display: block;
-  background: #fff;
-  border-radius: 8px;
-  padding: 8px 16px;
 }
 
 app-dialog {
