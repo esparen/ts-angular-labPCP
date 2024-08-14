@@ -1,9 +1,10 @@
-<section id="statistics">
+<section id="statistics" *ngIf="isCurrentUserAdmin()" >
   <mat-toolbar id="welcome-toolbar" class="mat-toolbar">
     <span>Estatisticas</span>
   </mat-toolbar>
 
   <mat-divider></mat-divider>
+
   <div class="card-container">
     <mat-card *ngFor="let statistic of statistics" class="statistic-card">
       <mat-card-header>
@@ -57,7 +58,22 @@
           ></mat-icon>
           {{ student.phone }}</span
         >
-        <button mat-stroked-button aria-label="Ver mais">ver mais</button>
+        <button *ngIf="isCurrentUserAdmin()" 
+          mat-stroked-button 
+          aria-label="Ver mais" 
+          [routerLink]="['/student']"
+          [queryParams] = "{ id: student.id }">
+          ver mais
+        </button>
+
+        <button 
+          *ngIf="isCurrentTeacher()" 
+          mat-stroked-button 
+          aria-label="Ver mais" 
+          [routerLink]="['/grade']"
+          [queryParams] = "{ studentId : student.id}" >
+          lançar nota
+        </button>
       </mat-card-content>
     </mat-card>
   </div>
