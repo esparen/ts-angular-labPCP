@@ -14,7 +14,8 @@
 
 .app-container {
   display: flex;
-  height: 100vh; /* Ensure the container takes the full viewport height */
+  justify-content: center;
+  //height: 100vh; /* Ensure the container takes the full viewport height */
 }
 
 app-sidebar {
