@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, IUser } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,12 +25,17 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class AppSidebarComponent {
-  @ViewChild('sidenav')  sidenav!: MatSidenav;
+export class AppSidebarComponent implements OnInit {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
   events: string[] = [];
   opened: boolean = true;
+  user: IUser | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.user = this.authService.getCurrentUser();
+  }
 
   toggleSidebar() {
     this.opened = !this.opened;
