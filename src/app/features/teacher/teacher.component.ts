@@ -56,8 +56,8 @@ export class TeacherComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const paramTeacherId = this.route.snapshot.queryParamMap.get('id');
     this.initializeForm();
-    const paramTeacherId = this.route.snapshot.paramMap.get('id');
     if (!paramTeacherId) {
       this.viewMode = 'insert';
       this.teacherForm.enable();
@@ -118,20 +118,20 @@ export class TeacherComponent implements OnInit {
   }
 
   cpfValidator(control: FormControl) {
-    const cpf = control.value;
+ /*    const cpf = control.value;
     const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     if (!cpfRegex.test(cpf)) {
       return { invalidCpf: true };
     }
-    return null;
+    return null; */
   }
   dateValidator(control: FormControl) {
-    const date = control.value;
+  /*   const date = control.value;
     const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
     if (!dateRegex.test(date)) {
       return { invalidDate: true };
     }
-    return null;
+    return null; */
   }
   phoneValidator(control: FormControl) {}
 
@@ -150,11 +150,16 @@ export class TeacherComponent implements OnInit {
   }
 
   onSave() {
-    if (this.teacherForm.invalid) return;
+    if (this.teacherForm.invalid) {
+      this.teacherForm.markAllAsTouched(this.teacherForm.controls);
+      alert('Existem campos inválidos, revise e tente novamente');
+      return;
+    }
 
     const teacherData = this.teacherForm.value;
     teacherData.papelId = 2; // Docente
     if (this.viewMode === 'edit') {
+      teacherData.id = this.teacherId;
       this.userService.setUser(teacherData).subscribe(() => {
         this.snackBar.open('Docente atualizado com sucesso!', 'Fechar', {
           duration: 3000,
@@ -167,6 +172,7 @@ export class TeacherComponent implements OnInit {
         });
       });
     }
+     this.cancelEdit();
   }
 
   enableEdit() {
@@ -182,6 +188,7 @@ export class TeacherComponent implements OnInit {
       this.teacherForm.reset();
     }
     this.viewMode = 'read';
+    this.teacherForm.disable();
   }
 
   onDelete() {
