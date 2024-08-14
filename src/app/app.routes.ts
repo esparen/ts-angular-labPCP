@@ -7,6 +7,7 @@ import { ClassComponent } from './features/class/class.component';
 import { GradeListComponent } from './features/grade-list/grade-list.component';
 import { StudentComponent } from './features/student/student.component';
 import { GradeComponent } from './features/grade/grade.component';
+import { TeacherListComponent } from './features/teacher-list/teacher-list.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,7 +25,7 @@ export const routes: Routes = [
   { path: 'grade', component: GradeComponent, canActivate: [AuthGuard] },
   {
     path: 'teacher-list',
-    component: StudentComponent,
+    component: TeacherListComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/home' },

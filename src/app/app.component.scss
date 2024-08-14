@@ -1,3 +1,17 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; // Garante que a toolbar fique acima de outros elementos
+}
+
 .app-container {
   display: flex;
   height: 100vh; /* Ensure the container takes the full viewport height */
@@ -10,6 +24,7 @@ app-sidebar {
 
 .content-container {
   display: flex;
+  flex-direction: column;
   height: 100vh; /* Ensure the container takes the full viewport height */
 }
 
