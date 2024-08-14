@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StudentService } from '../../core/services/student.service';
 
 @Component({
   selector: 'app-student',
@@ -8,5 +9,6 @@ import { Component } from '@angular/core';
   styleUrl: './student.component.scss'
 })
 export class StudentComponent {
+  constructor(private studentService: StudentService) {}
 
 }

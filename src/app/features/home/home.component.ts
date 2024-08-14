@@ -10,7 +10,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-
+import { StudentService } from '../../core/services/student.service';
+import { UserService, IUser as IDatabaseUser } from '../../core/services/user.service';
+import { EnrollmentService } from '../../core/services/enrollment.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -32,50 +34,31 @@ import { MatButtonModule } from '@angular/material/button';
 export class HomeComponent {
   studentSearchTerm: string = '';
   currentUser: IUser | null = null;
-  statistics = [
-    { title: 'Alunos', detail: 100 },
-    { title: 'Turmas', detail: 3 },
-    { title: 'Docentes', detail: 5 },
-  ];
-  students = [
-    {
-      id: 1,
-      name: 'João',
-      email: 'example@mail.com',
-      image: 'assets/avatar.png',
-      age: 20,
-      phone: '999999999',
-    },
-    {
-      id: 2,
-      name: 'Maria',
-      email: 'maria@mail.com',
-      image: 'assets/avatar.png',
-      age: 23,
-      phone: '999999999',
-    },
-    {
-      id: 3,
-      name: 'José',
-      email: 'jose@mail.com',
-      image: 'assets/avatar.png',
-      age: 21,
-      phone: '999999999',
-    },
-    {
-      id: 4,
-      name: 'Ana',
-      email: 'ana@mail.com',
-      image: 'assets/avatar.png',
-      age: 22,
-      phone: '999999999',
-    },
-  ];
+  statistics = [] as { title: string; detail: number }[];
+  students = [] as IDatabaseUser[];
+  teachers = [] as IDatabaseUser[];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private studentService: StudentService,
+    private userService: UserService,
+    private enrollmentService: EnrollmentService
+  ) {}
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    this.studentService.getStudents().subscribe((data) => {
+      this.students = data;
+      this.statistics.push({ title: 'Alunos', detail: this.students.length });
+    });
+    this.userService.getUsersByRole(2).subscribe((data) => {
+      this.teachers = data;
+      this.statistics.push({ title: 'Docentes', detail: this.teachers.length });
+    });
+    this.enrollmentService.getClassCount().subscribe((data) => {
+      this.statistics.push({ title: 'Turmas', detail: data });
+    });
   }
 
   logout() {
