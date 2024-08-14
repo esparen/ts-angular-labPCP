@@ -10,37 +10,43 @@ export interface IEnrollmentClass {
   subjectId: number;
   courseId: number;
 }
+export interface IDisciplines{
+  id: number;
+  name: string;
+}
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class EnrollmentService {
-  private apiUrl = 'http://localhost:3000/turma'; // Assuming the JSON server is running on port 3000
+  private apiUrl = 'http://localhost:3000/turma';
+  private disciplinesApiUrl = 'http://localhost:3000/materia';
 
   constructor(private http: HttpClient) {}
 
-  
   getClasses(): Observable<IEnrollmentClass[]> {
     return this.http.get<IEnrollmentClass[]>(this.apiUrl);
   }
 
-  
   getClassById(id: number): Observable<IEnrollmentClass> {
     return this.http.get<IEnrollmentClass>(`${this.apiUrl}/${id}`);
   }
 
-  
   addClass(newClass: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.post<IEnrollmentClass>(this.apiUrl, newClass);
   }
 
-  
-  updateClass(id: number, updatedClass: IEnrollmentClass): Observable<IEnrollmentClass> {
-    return this.http.put<IEnrollmentClass>(`${this.apiUrl}/${id}`, updatedClass);
+  updateClass(
+    id: number,
+    updatedClass: IEnrollmentClass
+  ): Observable<IEnrollmentClass> {
+    return this.http.put<IEnrollmentClass>(
+      `${this.apiUrl}/${id}`,
+      updatedClass
+    );
   }
 
-  
   deleteClass(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
@@ -49,5 +55,25 @@ export class EnrollmentService {
     return this.http
       .get<IEnrollmentClass[]>(this.apiUrl)
       .pipe(map((classes) => classes.length));
+  }
+
+  getDisciplines(): Observable<IDisciplines[]> {
+    return this.http.get<IDisciplines[]>(this.disciplinesApiUrl);
+  }
+  
+  getDisciplineById(id: number): Observable<IDisciplines> {
+    return this.http.get<IDisciplines>(`${this.disciplinesApiUrl}/${id}`);
+  }
+
+  getEnrollmentsByStudentId(studentId: number): Observable<IEnrollmentClass[]> {
+    return this.http
+      .get<IEnrollmentClass[]>(this.apiUrl)
+      .pipe(
+        map((classes) =>
+          classes.filter((enrollment) =>
+            enrollment.studentIds.includes(studentId)
+          )
+        )
+      );
   }
 }
