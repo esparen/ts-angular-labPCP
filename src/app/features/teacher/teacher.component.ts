@@ -1,22 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ViaCepService } from '../../core/services/viacep.service';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
+import {
+  MatOptionModule,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { EnrollmentService, IDisciplines } from '../../core/services/enrollment.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ActivatedRoute } from '@angular/router';
+
+type typeViewMode = 'read' | 'insert' | 'edit';
 
 @Component({
   selector: 'app-teacher',
   templateUrl: './teacher.component.html',
   styleUrl: './teacher.component.scss',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -25,7 +33,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatFormFieldModule,
     MatOptionModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule
   ],
 })
 export class TeacherComponent implements OnInit {
@@ -33,23 +42,38 @@ export class TeacherComponent implements OnInit {
   genders = ['Masculino', 'Feminino', 'Outro'];
   maritalStatuses = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo'];
   subjects = [] as IDisciplines[];
-  isEditMode = false;
+  viewMode: typeViewMode = 'read';
+  teacherId: string | null = null;
+  isEditMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private snackBar: MatSnackBar,
     private viaCepService: ViaCepService,
-    private enrollmentService: EnrollmentService
+    private enrollmentService: EnrollmentService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.initializeForm();
+    this.teacherId = this.route.snapshot.queryParamMap.get('id');
+    if (!this.teacherId) {
+      this.viewMode = 'insert';
+      this.teacherForm.enable();
+    } else {
+      this.loadTeacherData(this.teacherId);
+      const viewModeParam =
+        this.route.snapshot.queryParamMap.get('mode') || 'read';
+      this.viewMode = viewModeParam as typeViewMode;
+      if (this.viewMode === 'read') this.teacherForm.disable();
+      else this.teacherForm.enable();
+    }
   }
 
   initializeForm() {
     this.teacherForm = this.fb.group({
-      fullName: [
+      name: [
         '',
         [
           Validators.required,
@@ -75,37 +99,51 @@ export class TeacherComponent implements OnInit {
       ],
       cep: ['', [Validators.required, Validators.minLength(8)]],
       street: [{ value: '', disabled: true }],
-      number: [{ value: '', disabled: false }],
+      number: [''],
       city: [{ value: '', disabled: true }],
       state: [{ value: '', disabled: true }],
       complement: [''],
-      subjects: [[], Validators.required],
+      subjects: [[], [Validators.required]],
     });
     this.enrollmentService.getDisciplines().subscribe((disciplines) => {
       this.subjects = disciplines;
     });
   }
 
+  loadTeacherData(teacherId: string) {
+    this.userService.getUserById(teacherId).subscribe((teacher) => {
+      this.teacherForm.patchValue(teacher);
+    });
+  }
+
   cpfValidator(control: FormControl) {
-    /* CPF validation logic */
+    const cpf = control.value;
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+    if (!cpfRegex.test(cpf)) {
+      return { invalidCpf: true };
+    }
+    return null;
   }
   dateValidator(control: FormControl) {
-    /* Date validation logic */
+    const date = control.value;
+    const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!dateRegex.test(date)) {
+      return { invalidDate: true };
+    }
+    return null;
   }
-  phoneValidator(control: FormControl) {
-    /* Phone validation logic */
-  }
+  phoneValidator(control: FormControl) {}
 
   onCepBlur() {
     const cep = this.teacherForm.get('cep')?.value;
     this.viaCepService.getAddressByCep(cep).subscribe((address) => {
       console.log('address', address);
-      
+
       this.teacherForm.patchValue({
-          city: address.localidade,
-          state: address.uf,
-          street: address.logradouro,
-          neighborhood: address.bairro
+        city: address.localidade,
+        state: address.uf,
+        street: address.logradouro,
+        neighborhood: address.bairro,
       });
     });
   }
@@ -114,7 +152,8 @@ export class TeacherComponent implements OnInit {
     if (this.teacherForm.invalid) return;
 
     const teacherData = this.teacherForm.value;
-    if (this.isEditMode) {
+    teacherData.papelId = 2; // Docente
+    if (this.viewMode === 'edit') {
       this.userService.setUser(teacherData).subscribe(() => {
         this.snackBar.open('Docente atualizado com sucesso!', 'Fechar', {
           duration: 3000,
@@ -129,11 +168,28 @@ export class TeacherComponent implements OnInit {
     }
   }
 
-  onEdit() {
+  enableEdit() {
     // Logic to switch to edit mode
+    this.viewMode = 'edit';
+    this.teacherForm.enable();
+  }
+
+  cancelEdit() {
+    if (this.teacherId) {
+      this.loadTeacherData(this.teacherId);
+    } else {
+      this.teacherForm.reset();
+    }
+    this.viewMode = 'read';
   }
 
   onDelete() {
-    // Logic to delete teacher
+    if (!this.teacherId) return;
+    this.userService.deleteUser(this.teacherId).subscribe(() => {
+      this.snackBar.open('Docente excluído com sucesso!', 'Fechar', {
+        duration: 3000,
+      });
+      this.teacherForm.reset();
+    });
   }
 }

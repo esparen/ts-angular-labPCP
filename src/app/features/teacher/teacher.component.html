@@ -2,20 +2,19 @@
   <div class="form-header">
     <h2 class="form-title">Cadastro de Docente</h2>
     <div class="form-actions">
-      <button mat-icon-button  [disabled]="!isEditMode">
+      <button mat-icon-button  [disabled]="!(viewMode === 'read')" (click)="enableEdit()">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button [disabled]="!isEditMode">
+      <button mat-icon-button [disabled]="!(viewMode === 'read')" (click)="onDelete()">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
   </div>
   <form [formGroup]="teacherForm">
-    <!-- First line: Fullname and Phone -->
     <div class="form-row">
       <mat-form-field class="full-width">
         <mat-label>Nome Completo</mat-label>
-        <input matInput formControlName="fullName" />
+        <input matInput formControlName="name" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Telefone</mat-label>
@@ -78,7 +77,7 @@
     <div class="form-row">
       <mat-form-field class="full-width">
         <mat-label>Matérias</mat-label>
-        <mat-select formControlName="subjects" multiple>
+        <mat-select formControlName="subjects" multiple >
           <mat-option *ngFor="let subject of subjects" [value]="subject.id">
             {{ subject.name }}
           </mat-option>
@@ -119,37 +118,7 @@
 
   <!-- Form footer with save button -->
   <div class="form-footer">
-    <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+    <button *ngIf="viewMode !== 'read'" mat-raised-button color="primary" (click)="cancelEdit()">Cancelar</button>
+    <button *ngIf="viewMode !== 'read'" mat-raised-button color="primary" (click)="onSave()">Salvar</button>
   </div>
-
-  <!-- <form [formGroup]="teacherForm" (ngSubmit)="onSave()">
-    <mat-form-field>
-      <mat-label>Nome Completo</mat-label>
-      <input matInput formControlName="fullName">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Gênero</mat-label>
-      <mat-select formControlName="gender">
-        <mat-option *ngFor="let gender of genders" [value]="gender">{{ gender }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Data de Nascimento</mat-label>
-      <input matInput formControlName="birthDate">
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Matérias</mat-label>
-      <mat-select formControlName="subjects" multiple>
-        <mat-option *ngFor="let subject of subjects" [value]="subject">{{ subject.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div>
-      <button mat-button type="submit" [disabled]="isEditMode">Salvar</button>
-      
-    </div>
-  </form> -->
 </div>

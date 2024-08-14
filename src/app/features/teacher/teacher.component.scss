@@ -17,8 +17,9 @@ $septenary-color: #c7522a;
 
 .teacher-form {
   margin: 0.5rem;
-  padding: 0.3rem;
+  padding: 4rem;
   background-color: $quarternary-color;
+
 
   .form-header {
     display: flex;
@@ -41,6 +42,7 @@ $septenary-color: #c7522a;
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
+   
 
     mat-form-field {
       width: 48%;
@@ -56,5 +58,24 @@ $septenary-color: #c7522a;
     display: flex;
     justify-content: flex-end;
     margin-top: 1.5rem;
+
+    button {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .teacher-form {
+    padding: 1rem;
+
+    .form-row {
+      flex-direction: column;
+      justify-content: center;
+      mat-form-field {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+    }
   }
 }
