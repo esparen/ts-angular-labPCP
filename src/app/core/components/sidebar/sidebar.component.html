@@ -27,31 +27,31 @@
         </button>
       </mat-list-item>
 
-      <mat-list-item *ngIf="isAdmin">
-        <button mat-button [routerLink]="['/gerenciar-docentes']">
+      <mat-list-item *ngIf="isAdmin" >
+        <button mat-button [routerLink]="['/teacher']">
           <mat-icon>school</mat-icon>
-          <span *ngIf="opened">Gerenciar Docentes</span>
+          <span *ngIf="opened">Cadastrar Docentes</span>
         </button>
       </mat-list-item>
 
       <mat-list-item *ngIf="isAdmin">
-        <button mat-button [routerLink]="['/gerenciar-alunos']">
+        <button mat-button [routerLink]="['/student']">
           <mat-icon>group</mat-icon>
-          <span *ngIf="opened">Gerenciar Alunos</span>
+          <span *ngIf="opened">Cadastrar Alunos</span>
         </button>
       </mat-list-item>
 
       <mat-list-item *ngIf="isAdmin || isDocente">
-        <button mat-button [routerLink]="['/gerenciar-turmas']">
+        <button mat-button [routerLink]="['/class']">
           <mat-icon>class</mat-icon>
-          <span *ngIf="opened">Gerenciar Turmas</span>
+          <span *ngIf="opened">Cadastrar Turma</span>
         </button>
       </mat-list-item>
 
       <mat-list-item *ngIf="isAdmin || isDocente">
-        <button mat-button [routerLink]="['/gerenciar-avaliacoes']">
+        <button mat-button [routerLink]="['/grade']">
           <mat-icon>assignment</mat-icon>
-          <span *ngIf="opened">Gerenciar Avaliações</span>
+          <span *ngIf="opened">Cadastrar Avaliação</span>
         </button>
       </mat-list-item>
 
@@ -60,20 +60,22 @@
         <p>Detalhamento</p>
       </mat-list-item>
       <mat-list-item *ngIf="isAluno">
-        <button mat-button [routerLink]="['/notas']">
+        <button mat-button [routerLink]="['/grade-list']">
           <mat-icon>grade</mat-icon>
           <span *ngIf="opened">Notas</span>
         </button>
       </mat-list-item>
       <mat-list-item *ngIf="isAdmin">
-        <button mat-button [routerLink]="['/listagem-docentes']">
+        <button mat-button [routerLink]="['/teacher-list']">
           <mat-icon>list</mat-icon>
           <span *ngIf="opened">Listagem de Docentes</span>
         </button>
       </mat-list-item>
 
       <mat-divider></mat-divider>
-
+      <mat-list-item>
+        <p>Usuário: {{user?.name}} ({{user?.role?.name}})</p>
+      </mat-list-item>
       <mat-list-item>
         <button mat-button (click)="logout()">
           <mat-icon>logout</mat-icon>
