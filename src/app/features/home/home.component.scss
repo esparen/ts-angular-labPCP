@@ -1,10 +1,15 @@
+$primary-color: teal;
+$secondary-color: #809bce;
+$tertiary-color: #95b8d1;
+$quarternary-color: #b8e0d4;
+
+
 :host {
   display: flex;
   flex-direction: column;
   height: 100vh; /* Faz o container ocupar toda a altura da tela */
   background: #fff;
-  border-radius: 8px;
-  padding: 1rem;
+  background-color: $quarternary-color;
 }
 
 .card-container {
@@ -13,7 +18,7 @@
   gap: 4rem;
   align-items: center;
   padding: 1rem 4rem 2rem 4rem;
-  background-color: #f5f5f5;
+  background-color: inherit;
 
   margin-bottom: 2rem;
   @media (max-width: 481px) {
@@ -93,6 +98,7 @@
   background-color: #f5f5f5;
   border-radius: 10px;
   height: fit-content;
+  background-color: inherit;
 
   mat-form-field {
     margin-left: 2rem;

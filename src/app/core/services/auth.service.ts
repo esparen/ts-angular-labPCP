@@ -75,12 +75,12 @@ export class AuthService {
     );
   }
 
-  signOut(): void {
+  logOut(): void {
     localStorage.removeItem(this.currentUserKey);
   }
 
   getCurrentUser(): IUser | null {
-    const userJson = localStorage.getItem(this.currentUserKey);    
+    const userJson = localStorage.getItem(this.currentUserKey);
     return userJson ? JSON.parse(userJson) : null;
   }
 

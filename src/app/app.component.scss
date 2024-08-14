@@ -1,0 +1,16 @@
+.app-container {
+  display: flex;
+  height: 100vh; /* Ensure the container takes the full viewport height */
+}
+
+app-sidebar {
+  display: flex;
+  //flex-shrink: 0; /* Prevent the sidebar from shrinking */
+}
+
+.content-container {
+  display: flex;
+  height: 100vh; /* Ensure the container takes the full viewport height */
+}
+
+
