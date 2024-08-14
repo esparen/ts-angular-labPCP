@@ -67,7 +67,17 @@ export class HomeComponent {
   }
 
   onSearch() {
-    console.log('search');
+    const searchTerm = this.studentSearchTerm.toLowerCase();
+
+    this.studentService.getStudents().subscribe((data) => {
+      this.students = data.filter((student) => {
+        return (
+          student.name.toLowerCase().includes(searchTerm) ||
+          student.age?.toString().includes(searchTerm) ||
+          student.phone?.includes(searchTerm)
+        );
+      });
+    });
   }
 
   isCurrentUserAdmin(): boolean {
