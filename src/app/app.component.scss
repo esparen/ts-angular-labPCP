@@ -15,18 +15,17 @@
 .app-container {
   display: flex;
   justify-content: center;
-  //height: 100vh; /* Ensure the container takes the full viewport height */
 }
 
 app-sidebar {
   display: flex;
-  //flex-shrink: 0; /* Prevent the sidebar from shrinking */
 }
 
 .content-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Ensure the container takes the full viewport height */
+  flex-grow: 1; /* Garante que o container usa o restante do espaco */
+  height: 100vh; /* Força o container a usar toda a extensão da altura */
 }
 
 
