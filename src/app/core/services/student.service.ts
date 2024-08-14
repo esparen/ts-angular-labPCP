@@ -31,7 +31,7 @@ export class StudentService {
   }
 
   getStudentById(id: number): Observable<IStudent> {
-    return this.userService.getUserById(String(id)).pipe(
+    return this.userService.getUserById(id).pipe(
       filter((user) => user.papelId === this.studentRoleId),
       map((user) => user)
     );
@@ -39,18 +39,18 @@ export class StudentService {
 
   getEnrollments(studentId: number): Observable<IStudentEnrollment[]> {
     return this.enrollmentService.getEnrollmentsByStudentId(studentId).pipe(
-      switchMap((enrollments) => 
-        forkJoin(
+      switchMap((enrollments) => {
+        return forkJoin(
           enrollments.map((enrollment) => 
             this.enrollmentService.getDisciplineById(enrollment.subjectId).pipe(
               map((discipline) => ({
                 ...enrollment,
-                materiaName: discipline.name, // Assuming `discipline` has a `name` property
+                materiaName: discipline.name,
               }))
             )
           )
-        )
-      )
+        );
+      })
     );
   }
 
@@ -106,7 +106,7 @@ export class StudentService {
     return this.userService.setUser(student);
   }
 
-  deleteStudent(id: string): Observable<void> {
+  deleteStudent(id: number): Observable<void> {
     return this.userService.deleteUser(id);
   }
 
