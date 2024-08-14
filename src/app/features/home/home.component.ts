@@ -10,9 +10,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { StudentService } from '../../core/services/student.service';
+import {
+  StudentService,
+  IStudentGrade,
+  IStudentEnrollment,
+} from '../../core/services/student.service';
 import { UserService, IUser as IDatabaseUser } from '../../core/services/user.service';
 import { EnrollmentService } from '../../core/services/enrollment.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -37,6 +42,9 @@ export class HomeComponent {
   statistics = [] as { title: string; detail: number }[];
   students = [] as IDatabaseUser[];
   teachers = [] as IDatabaseUser[];
+  studentGrades = [] as IStudentGrade[];
+  studentEnrollments = [] as IStudentEnrollment[];
+  extraSubjects = ['Matemática', 'Química', 'Física']; // Mocks para materias extras
 
   constructor(
     private authService: AuthService,
@@ -48,6 +56,25 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    if (this.isCurrentUserTeacher()) this.loadTeacherData();
+    if (this.isCurrentUserAdmin()) this.loadAdminData();
+    if (this.isCurrentUserStudent()) this.loadStudentData();
+  }
+
+  loadStudentData() {
+    this.studentService
+      .getEnrollments(this.currentUser!.id)
+      .subscribe((subjects) => {
+        this.studentEnrollments = subjects.slice(0, 3);
+      });
+    this.studentService
+      .getGradesByOrder(this.currentUser!.id, 'desc', 3)
+      .subscribe((grades) => {
+        this.studentGrades = grades;
+      });
+  }
+
+  loadAdminData() {
     this.studentService.getStudents().subscribe((data) => {
       this.students = data;
       this.statistics.push({ title: 'Alunos', detail: this.students.length });
@@ -64,6 +91,13 @@ export class HomeComponent {
   logout() {
     this.authService.logOut();
     this.router.navigate(['/login']);
+  }
+
+  loadTeacherData() {
+    this.studentService.getStudents().subscribe((data) => {
+      this.students = data;
+      this.statistics.push({ title: 'Alunos', detail: this.students.length });
+    });
   }
 
   onSearch() {
@@ -84,7 +118,15 @@ export class HomeComponent {
     return this.currentUser?.role?.name === 'Admin';
   }
 
-  isCurrentTeacher(): boolean {
+  isCurrentUserTeacher(): boolean {
     return this.currentUser?.role?.name === 'Docente';
+  }
+
+  isCurrentUserStudent(): boolean {
+    return this.currentUser?.role?.name === 'Aluno';
+  }
+
+  onViewGradeDetails(gradeId: number) {
+    this.router.navigate(['/grade', gradeId]);
   }
 }
