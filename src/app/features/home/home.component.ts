@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService, IUser } from '../../core/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +30,8 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class HomeComponent {
+  studentSearchTerm: string = '';
+  currentUser: IUser | null = null;
   statistics = [
     { title: 'Alunos', detail: 100 },
     { title: 'Turmas', detail: 3 },
@@ -37,6 +39,7 @@ export class HomeComponent {
   ];
   students = [
     {
+      id: 1,
       name: 'João',
       email: 'example@mail.com',
       image: 'assets/avatar.png',
@@ -44,6 +47,7 @@ export class HomeComponent {
       phone: '999999999',
     },
     {
+      id: 2,
       name: 'Maria',
       email: 'maria@mail.com',
       image: 'assets/avatar.png',
@@ -51,6 +55,7 @@ export class HomeComponent {
       phone: '999999999',
     },
     {
+      id: 3,
       name: 'José',
       email: 'jose@mail.com',
       image: 'assets/avatar.png',
@@ -58,6 +63,7 @@ export class HomeComponent {
       phone: '999999999',
     },
     {
+      id: 4,
       name: 'Ana',
       email: 'ana@mail.com',
       image: 'assets/avatar.png',
@@ -66,9 +72,11 @@ export class HomeComponent {
     },
   ];
 
-  studentSearchTerm: string = '';
-
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+  }
 
   logout() {
     this.authService.logOut();
@@ -77,5 +85,13 @@ export class HomeComponent {
 
   onSearch() {
     console.log('search');
+  }
+
+  isCurrentUserAdmin(): boolean {
+    return this.currentUser?.role?.name === 'Admin';
+  }
+
+  isCurrentTeacher(): boolean {
+    return this.currentUser?.role?.name === 'Docente';
   }
 }
