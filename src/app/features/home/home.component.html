@@ -3,8 +3,6 @@
     <h3>Estatisticas</h3>
   </mat-toolbar>
 
-  <!-- <mat-divider></mat-divider> -->
-
   <div class="card-container">
     <mat-card *ngFor="let statistic of statistics" class="statistic-card">
       <mat-card-header>
@@ -27,6 +25,7 @@
         type="text"
         [(ngModel)]="studentSearchTerm"
         placeholder="Buscar..."
+        (ngModelChange)="onSearch()"
       />
       <mat-icon
         matSuffix

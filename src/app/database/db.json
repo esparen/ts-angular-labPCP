@@ -15,7 +15,7 @@
     { "id": 8, "name": "Sven from Denmark", "papelId": 3, "password": "123456", "age": 19, "phone": "123456789"  },
     { "id": 9, "name": "Eder from São Leopoldo", "papelId": 3, "password": "123456", "age": 18, "phone": "123456789"  },
     
-    { "id": 10, "name": "Mestre Zenai", "papelId": 2, "password": "112233" },
+    { "id": 10, "name": "Zenai", "papelId": 2, "password": "112233" },
     { "id": 11, "name": "Principe Barundar Orcbane", "papelId": 2, "password": "112233" },
     { "id": 12, "name": "Conde Varian Jeggare", "papelId": 2, "password": "112233" },
     { "id": 13, "name": "narrador", "papelId": 1, "password": "1q2w3e" }
