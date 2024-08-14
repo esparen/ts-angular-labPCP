@@ -25,19 +25,19 @@ export class EnrollmentService {
 
   constructor(private http: HttpClient) {}
 
-  getClasses(): Observable<IEnrollmentClass[]> {
+  getEnrollments(): Observable<IEnrollmentClass[]> {
     return this.http.get<IEnrollmentClass[]>(this.apiUrl);
   }
 
-  getClassById(id: number): Observable<IEnrollmentClass> {
+  getEnrollmentById(id: number): Observable<IEnrollmentClass> {
     return this.http.get<IEnrollmentClass>(`${this.apiUrl}/${id}`);
   }
 
-  addClass(newClass: IEnrollmentClass): Observable<IEnrollmentClass> {
+  addEnrollment(newClass: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.post<IEnrollmentClass>(this.apiUrl, newClass);
   }
 
-  updateClass(
+  updateEnrollment(
     id: number,
     updatedClass: IEnrollmentClass
   ): Observable<IEnrollmentClass> {
@@ -47,11 +47,11 @@ export class EnrollmentService {
     );
   }
 
-  deleteClass(id: number): Observable<void> {
+  deleteEnrollment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getClassCount(): Observable<number> {
+  getEnrollmentCount(): Observable<number> {
     return this.http
       .get<IEnrollmentClass[]>(this.apiUrl)
       .pipe(map((classes) => classes.length));
@@ -60,7 +60,7 @@ export class EnrollmentService {
   getDisciplines(): Observable<IDisciplines[]> {
     return this.http.get<IDisciplines[]>(this.disciplinesApiUrl);
   }
-  
+
   getDisciplineById(id: number): Observable<IDisciplines> {
     return this.http.get<IDisciplines>(`${this.disciplinesApiUrl}/${id}`);
   }
@@ -69,11 +69,14 @@ export class EnrollmentService {
     return this.http
       .get<IEnrollmentClass[]>(this.apiUrl)
       .pipe(
-        map((classes) =>
-          classes.filter((enrollment) =>
-            enrollment.studentIds.includes(studentId)
-          )
-        )
+        map((classes) =>{
+          return classes.filter((enrollment) =>
+          {
+            const response = enrollment.studentIds.includes(studentId);
+            return response
+          }
+          );
+        })
       );
   }
 }

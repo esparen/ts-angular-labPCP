@@ -43,7 +43,7 @@ export class TeacherComponent implements OnInit {
   maritalStatuses = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo'];
   subjects = [] as IDisciplines[];
   viewMode: typeViewMode = 'read';
-  teacherId: string | null = null;
+  teacherId: number | null = null;
   isEditMode: boolean = false;
 
   constructor(
@@ -56,12 +56,13 @@ export class TeacherComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const paramTeacherId = this.route.snapshot.queryParamMap.get('id');
     this.initializeForm();
-    this.teacherId = this.route.snapshot.queryParamMap.get('id');
-    if (!this.teacherId) {
+    if (!paramTeacherId) {
       this.viewMode = 'insert';
       this.teacherForm.enable();
     } else {
+      this.teacherId = Number(paramTeacherId);
       this.loadTeacherData(this.teacherId);
       const viewModeParam =
         this.route.snapshot.queryParamMap.get('mode') || 'read';
@@ -110,27 +111,27 @@ export class TeacherComponent implements OnInit {
     });
   }
 
-  loadTeacherData(teacherId: string) {
+  loadTeacherData(teacherId: number) {
     this.userService.getUserById(teacherId).subscribe((teacher) => {
       this.teacherForm.patchValue(teacher);
     });
   }
 
   cpfValidator(control: FormControl) {
-    const cpf = control.value;
+ /*    const cpf = control.value;
     const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
     if (!cpfRegex.test(cpf)) {
       return { invalidCpf: true };
     }
-    return null;
+    return null; */
   }
   dateValidator(control: FormControl) {
-    const date = control.value;
+  /*   const date = control.value;
     const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
     if (!dateRegex.test(date)) {
       return { invalidDate: true };
     }
-    return null;
+    return null; */
   }
   phoneValidator(control: FormControl) {}
 
@@ -149,11 +150,16 @@ export class TeacherComponent implements OnInit {
   }
 
   onSave() {
-    if (this.teacherForm.invalid) return;
+    if (this.teacherForm.invalid) {
+      this.teacherForm.markAllAsTouched(this.teacherForm.controls);
+      alert('Existem campos inválidos, revise e tente novamente');
+      return;
+    }
 
     const teacherData = this.teacherForm.value;
     teacherData.papelId = 2; // Docente
     if (this.viewMode === 'edit') {
+      teacherData.id = this.teacherId;
       this.userService.setUser(teacherData).subscribe(() => {
         this.snackBar.open('Docente atualizado com sucesso!', 'Fechar', {
           duration: 3000,
@@ -166,6 +172,7 @@ export class TeacherComponent implements OnInit {
         });
       });
     }
+     this.cancelEdit();
   }
 
   enableEdit() {
@@ -181,6 +188,7 @@ export class TeacherComponent implements OnInit {
       this.teacherForm.reset();
     }
     this.viewMode = 'read';
+    this.teacherForm.disable();
   }
 
   onDelete() {

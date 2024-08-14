@@ -83,7 +83,7 @@ export class HomeComponent {
       this.teachers = data;
       this.statistics.push({ title: 'Docentes', detail: this.teachers.length });
     });
-    this.enrollmentService.getClassCount().subscribe((data) => {
+    this.enrollmentService.getEnrollmentCount().subscribe((data) => {
       this.statistics.push({ title: 'Turmas', detail: data });
     });
   }
