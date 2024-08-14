@@ -39,22 +39,6 @@
       "phone": "123456789"
     },
     {
-      "id": "4",
-      "name": "João de Ipatinga",
-      "papelId": 3,
-      "password": "123456",
-      "age": 20,
-      "phone": "123456789"
-    },
-    {
-      "id": "5",
-      "name": "Luiza de Gravatai",
-      "papelId": 3,
-      "password": "123456",
-      "age": 19,
-      "phone": "123456789"
-    },
-    {
       "id": "6",
       "name": "Helena de Troia",
       "papelId": 3,
@@ -112,7 +96,8 @@
     },
     {
       "id": "63a1",
-      "fullName": "EDERSON SPARENBERGER",
+      "name": "EDERSON SPARENBERGER",
+      "papelId": 2,
       "gender": "M",
       "birthDate": "01/02/2000",
       "cpf": "846546545456",
@@ -128,20 +113,6 @@
         "1",
         "2"
       ]
-    }
-  ],
-  "docente": [
-    {
-      "id": "1",
-      "usuarioId": 4
-    },
-    {
-      "id": "2",
-      "usuarioId": 5
-    },
-    {
-      "id": "3",
-      "usuarioId": 6
     }
   ],
   "materia": [
