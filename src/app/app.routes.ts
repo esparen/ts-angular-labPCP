@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
 import { HomeComponent } from './features/home/home.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 import { TeacherComponent } from './features/teacher/teacher.component';
 import { ClassComponent } from './features/class/class.component';
 import { GradeListComponent } from './features/grade-list/grade-list.component';
@@ -14,7 +15,7 @@ export const routes: Routes = [
   { path: 'unauthenticated', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'teacher', component: TeacherComponent, canActivate: [AuthGuard] },
+  { path: 'teacher', component: TeacherComponent, canActivate: [AuthGuard] && [AdminGuard] },
   { path: 'class', component: ClassComponent, canActivate: [AuthGuard] },
   {
     path: 'grade-list',

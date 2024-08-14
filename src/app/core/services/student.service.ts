@@ -31,7 +31,7 @@ export class StudentService {
   }
 
   getStudentById(id: number): Observable<IStudent> {
-    return this.userService.getUserById(id).pipe(
+    return this.userService.getUserById(String(id)).pipe(
       filter((user) => user.papelId === this.studentRoleId),
       map((user) => user)
     );
@@ -106,7 +106,7 @@ export class StudentService {
     return this.userService.setUser(student);
   }
 
-  deleteStudent(id: number): Observable<void> {
+  deleteStudent(id: string): Observable<void> {
     return this.userService.deleteUser(id);
   }
 
