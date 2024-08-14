@@ -1,9 +1,9 @@
 <section id="statistics" *ngIf="isCurrentUserAdmin()" >
   <mat-toolbar id="welcome-toolbar" class="mat-toolbar">
-    <span>Estatisticas</span>
+    <h3>Estatisticas</h3>
   </mat-toolbar>
 
-  <mat-divider></mat-divider>
+  <!-- <mat-divider></mat-divider> -->
 
   <div class="card-container">
     <mat-card *ngFor="let statistic of statistics" class="statistic-card">
@@ -41,7 +41,7 @@
     <mat-card *ngFor="let student of students" class="student-card">
       <img
         mat-card-image
-        src="{{ student.image }}"
+        src="{{ student.image || 'assets/avatar.png' }}"
         alt="Photo of {{ student.name }}"
       />
       <mat-card-header>

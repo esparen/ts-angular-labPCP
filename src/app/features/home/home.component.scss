@@ -12,13 +12,23 @@ $quarternary-color: #b8e0d4;
   background-color: $quarternary-color;
 }
 
+#student-listing {
+  background-color: $quarternary-color;
+}
+
+#welcome-toolbar{
+  background-color: $quarternary-color;
+}
+
 .card-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 4rem;
   align-items: center;
   padding: 1rem 4rem 2rem 4rem;
-  background-color: inherit;
+  background-color: $quarternary-color;
+  
 
   margin-bottom: 2rem;
   @media (max-width: 481px) {
@@ -44,7 +54,7 @@ $quarternary-color: #b8e0d4;
     box-shadow: 8px 8px 4px 0px rgba(0, 0, 0, 0.4);
     min-width: 12rem;
     min-height: 6rem;
-    max-width: 20rem;
+    max-width: 10rem;
     padding-top: 1rem;
     align-items: center;
     align-content: center;
