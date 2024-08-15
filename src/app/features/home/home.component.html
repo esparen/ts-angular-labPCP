@@ -17,14 +17,14 @@
 
 <section id="minhas-materias" *ngIf="isCurrentUserStudent()">
   <mat-toolbar class="mat-toolbar">
-    <h3>Minhas Matriculas</h3>
+    <h3>Minhas Turmas / Matérias</h3>
   </mat-toolbar>
   <div class="card-container">
     <mat-card *ngFor="let enrollment of studentEnrollments" class="student-card">
       <mat-card-header>
-        <mat-card-title>{{ enrollment.materiaName }}</mat-card-title>
+        <mat-card-title>Turma</mat-card-title>
       </mat-card-header>
-      <mat-card-content>Turma: {{ enrollment.name }}</mat-card-content>
+      <mat-card-content>{{ enrollment.name }}</mat-card-content>
     </mat-card>
   </div>
 </section>

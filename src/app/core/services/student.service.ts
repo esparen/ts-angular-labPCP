@@ -17,8 +17,7 @@ export interface IStudentGrade extends IGrade {
   providedIn: 'root',
 })
 export class StudentService {
-  private readonly studentRoleId = 3;
-  private readonly subjectApiUrl = 'http://localhost:3000/materia';
+  private readonly studentRoleId = "3";
 
   constructor(
     private userService: UserService,
@@ -30,32 +29,19 @@ export class StudentService {
     return this.userService.getUsersByRole(this.studentRoleId);
   }
 
-  getStudentById(id: number): Observable<IStudent> {
+  getStudentById(id: string): Observable<IStudent> {
     return this.userService.getUserById(id).pipe(
       filter((user) => user.papelId === this.studentRoleId),
       map((user) => user)
     );
   }
 
-  getEnrollments(studentId: number): Observable<IStudentEnrollment[]> {
-    return this.enrollmentService.getEnrollmentsByStudentId(studentId).pipe(
-      switchMap((enrollments) => {
-        return forkJoin(
-          enrollments.map((enrollment) => 
-            this.enrollmentService.getDisciplineById(enrollment.subjectId).pipe(
-              map((discipline) => ({
-                ...enrollment,
-                materiaName: discipline.name,
-              }))
-            )
-          )
-        );
-      })
-    );
+  getEnrollments(studentId: string): Observable<IEnrollmentClass[]> {
+    return this.enrollmentService.getEnrollmentsByStudentId(studentId); 
   }
 
 
-  getGrades(studentId: number): Observable<IStudentGrade[]> {
+  getGrades(studentId: string): Observable<IStudentGrade[]> {
     return this.gradeService
       .getGradesByStudent(studentId)
       .pipe(mergeMap((grades) => this.addDisciplineNames(grades)));
@@ -76,7 +62,7 @@ export class StudentService {
     disciplines: IDisciplines[]
   ): IStudentGrade {
     const discipline = disciplines.find((d) => {
-      return d.id == Number(grade.materiaId);
+      return d.id == grade.materiaId;
     });
     return {
       ...grade,
@@ -85,7 +71,7 @@ export class StudentService {
   }
 
   getGradesByOrder(
-    studentId: number,
+    studentId: string,
     order: 'desc' | 'asc' = 'desc',
     limit: number = 3
   ): Observable<IStudentGrade[]> {
@@ -106,7 +92,7 @@ export class StudentService {
     return this.userService.setUser(student);
   }
 
-  deleteStudent(id: number): Observable<void> {
+  deleteStudent(id: string): Observable<void> {
     return this.userService.deleteUser(id);
   }
 

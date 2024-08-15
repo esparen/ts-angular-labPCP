@@ -3,15 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 export interface IEnrollmentClass {
-  id: number;
+  id: string;
   name: string;
-  teacherId: number; 
-  studentIds: number[]; 
-  subjectId: number;
-  courseId: number;
+  teacherId: string; 
+  studentIds: string[]; 
+  subjectId?: string;
+  courseId: string;
 }
 export interface IDisciplines{
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -29,25 +29,22 @@ export class EnrollmentService {
     return this.http.get<IEnrollmentClass[]>(this.apiUrl);
   }
 
-  getEnrollmentById(id: number): Observable<IEnrollmentClass> {
+  getEnrollmentById(id: string): Observable<IEnrollmentClass> {
     return this.http.get<IEnrollmentClass>(`${this.apiUrl}/${id}`);
   }
 
   addEnrollment(newClass: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.post<IEnrollmentClass>(this.apiUrl, newClass);
   }
-
-  updateEnrollment(
-    id: number,
-    updatedClass: IEnrollmentClass
-  ): Observable<IEnrollmentClass> {
+  
+  setEnrollment(enrollment: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.put<IEnrollmentClass>(
-      `${this.apiUrl}/${id}`,
-      updatedClass
+      `${this.apiUrl}/${enrollment.id}`,
+      enrollment
     );
   }
 
-  deleteEnrollment(id: number): Observable<void> {
+  deleteEnrollment(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
@@ -61,22 +58,18 @@ export class EnrollmentService {
     return this.http.get<IDisciplines[]>(this.disciplinesApiUrl);
   }
 
-  getDisciplineById(id: number): Observable<IDisciplines> {
+  getDisciplineById(id: string): Observable<IDisciplines> {
     return this.http.get<IDisciplines>(`${this.disciplinesApiUrl}/${id}`);
   }
 
-  getEnrollmentsByStudentId(studentId: number): Observable<IEnrollmentClass[]> {
-    return this.http
-      .get<IEnrollmentClass[]>(this.apiUrl)
-      .pipe(
-        map((classes) =>{
-          return classes.filter((enrollment) =>
-          {
-            const response = enrollment.studentIds.includes(studentId);
-            return response
-          }
-          );
-        })
-      );
+  getEnrollmentsByStudentId(studentId: string): Observable<IEnrollmentClass[]> {
+    return this.http.get<IEnrollmentClass[]>(this.apiUrl).pipe(
+      map((classes) => {
+        return classes.filter((enrollment) => {
+          const response = enrollment.studentIds.includes(studentId);
+          return response;
+        });
+      })
+    );
   }
 }
