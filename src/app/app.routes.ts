@@ -3,12 +3,14 @@ import { LoginComponent } from './features/login/login.component';
 import { HomeComponent } from './features/home/home.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
+import { AdminOrTeacherGuard } from './core/guards/admin-or-teacher.guard';
 import { TeacherComponent } from './features/teacher/teacher.component';
-import { ClassComponent } from './features/class/class.component';
+
 import { GradeListComponent } from './features/grade-list/grade-list.component';
 import { StudentComponent } from './features/student/student.component';
 import { GradeComponent } from './features/grade/grade.component';
 import { TeacherListComponent } from './features/teacher-list/teacher-list.component';
+import { EnrollmentComponent } from './features/enrollment/enrollment.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +22,7 @@ export const routes: Routes = [
     component: TeacherComponent,
     canActivate: [AuthGuard] && [AdminGuard],
   },
-  { path: 'class', component: ClassComponent, canActivate: [AuthGuard] },
+  { path: 'enrollment', component: EnrollmentComponent, canActivate: [AuthGuard] && [AdminOrTeacherGuard] },
   {
     path: 'grade-list',
     component: GradeListComponent,
@@ -31,7 +33,11 @@ export const routes: Routes = [
     component: StudentComponent,
     canActivate: [AuthGuard] && [AdminGuard],
   },
-  { path: 'grade', component: GradeComponent, canActivate: [AuthGuard] },
+  {
+    path: 'grade',
+    component: GradeComponent,
+    canActivate: [AuthGuard] && [AdminOrTeacherGuard],
+  },
   {
     path: 'teacher-list',
     component: TeacherListComponent,

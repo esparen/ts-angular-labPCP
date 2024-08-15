@@ -42,7 +42,7 @@
       </mat-list-item>
 
       <mat-list-item *ngIf="isAdmin || isDocente">
-        <button mat-button [routerLink]="['/class']">
+        <button mat-button [routerLink]="['/enrollment']">
           <mat-icon>class</mat-icon>
           <span *ngIf="opened">Cadastrar Turma</span>
         </button>
