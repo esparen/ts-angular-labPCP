@@ -36,14 +36,11 @@ export class EnrollmentService {
   addEnrollment(newClass: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.post<IEnrollmentClass>(this.apiUrl, newClass);
   }
-
-  updateEnrollment(
-    id: string,
-    updatedClass: IEnrollmentClass
-  ): Observable<IEnrollmentClass> {
+  
+  setEnrollment(enrollment: IEnrollmentClass): Observable<IEnrollmentClass> {
     return this.http.put<IEnrollmentClass>(
-      `${this.apiUrl}/${id}`,
-      updatedClass
+      `${this.apiUrl}/${enrollment.id}`,
+      enrollment
     );
   }
 
@@ -66,17 +63,13 @@ export class EnrollmentService {
   }
 
   getEnrollmentsByStudentId(studentId: string): Observable<IEnrollmentClass[]> {
-    return this.http
-      .get<IEnrollmentClass[]>(this.apiUrl)
-      .pipe(
-        map((classes) =>{
-          return classes.filter((enrollment) =>
-          {
-            const response = enrollment.studentIds.includes(studentId);
-            return response
-          }
-          );
-        })
-      );
+    return this.http.get<IEnrollmentClass[]>(this.apiUrl).pipe(
+      map((classes) => {
+        return classes.filter((enrollment) => {
+          const response = enrollment.studentIds.includes(studentId);
+          return response;
+        });
+      })
+    );
   }
 }
