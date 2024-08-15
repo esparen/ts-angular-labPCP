@@ -22,11 +22,15 @@ export const routes: Routes = [
     component: TeacherComponent,
     canActivate: [AuthGuard] && [AdminGuard],
   },
-  { path: 'enrollment', component: EnrollmentComponent, canActivate: [AuthGuard] && [AdminOrTeacherGuard] },
+  {
+    path: 'enrollment',
+    component: EnrollmentComponent,
+    canActivate: [AuthGuard] && [AdminOrTeacherGuard],
+  },
   {
     path: 'grade-list',
     component: GradeListComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard] && [!AdminOrTeacherGuard],
   },
   {
     path: 'student',
@@ -41,7 +45,7 @@ export const routes: Routes = [
   {
     path: 'teacher-list',
     component: TeacherListComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard] && [AdminGuard],
   },
   { path: '**', redirectTo: '/home' },
 ];
