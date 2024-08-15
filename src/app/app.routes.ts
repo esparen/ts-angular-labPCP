@@ -15,14 +15,22 @@ export const routes: Routes = [
   { path: 'unauthenticated', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'teacher', component: TeacherComponent, canActivate: [AuthGuard] && [AdminGuard] },
+  {
+    path: 'teacher',
+    component: TeacherComponent,
+    canActivate: [AuthGuard] && [AdminGuard],
+  },
   { path: 'class', component: ClassComponent, canActivate: [AuthGuard] },
   {
     path: 'grade-list',
     component: GradeListComponent,
     canActivate: [AuthGuard],
   },
-  { path: 'student', component: StudentComponent, canActivate: [AuthGuard] },
+  {
+    path: 'student',
+    component: StudentComponent,
+    canActivate: [AuthGuard] && [AdminGuard],
+  },
   { path: 'grade', component: GradeComponent, canActivate: [AuthGuard] },
   {
     path: 'teacher-list',

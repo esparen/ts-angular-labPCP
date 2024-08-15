@@ -11,8 +11,8 @@ export interface IUser {
   image?: string;
   age?: number;
   phone?: string;
+  email?: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -27,6 +27,14 @@ export class UserService {
 
   getUserById(id: number): Observable<IUser> {
     return this.http.get<IUser>(`${this.apiUrl}/${id}`);
+  }
+
+  getAllTeachers() {
+    return this.http.get<IUser[]>(`${this.apiUrl}?papelId=${2}`);
+  }
+
+  getTeacherById(teacherId: number) {
+    return this.getUserById(teacherId);
   }
 
   addUser(user: IUser): Observable<IUser> {
@@ -44,7 +52,7 @@ export class UserService {
   getUserCount(): Observable<number> {
     return this.getUsers().pipe(map((users) => users.length));
   }
-  
+
   getUsersByRole(papelId: number): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.apiUrl}?papelId=${papelId}`);
   }
