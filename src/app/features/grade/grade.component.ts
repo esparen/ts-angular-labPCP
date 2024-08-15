@@ -1,23 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
-import { EnrollmentService, IEnrollmentClass } from '../../core/services/enrollment.service';
+import { EnrollmentService, IDisciplines, IEnrollmentClass } from '../../core/services/enrollment.service';
 import { StudentService } from '../../core/services/student.service';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MAT_DATE_LOCALE, MatOptionModule } from '@angular/material/core';
+import {
+  MatOptionModule, 
+  DateAdapter,
+} from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { map, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IUser } from '../../core/interfaces/user.interface';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
+import moment from 'moment';
+import { map, Observable, startWith } from 'rxjs';
+import { GradeService } from '../../core/services/grade.service';
 
 type typeViewMode = 'read' | 'insert' | 'edit';
 @Component({
@@ -35,8 +41,10 @@ type typeViewMode = 'read' | 'insert' | 'edit';
     MatDatepickerModule,
     MatAutocompleteModule,
     FormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
   ],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'ja-JP' }],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './grade.component.html',
   styleUrl: './grade.component.scss',
 })
@@ -44,10 +52,10 @@ export class GradeComponent implements OnInit {
   gradeForm: FormGroup;
   teachers: IUser[] = [];
   enrollments = [] as IEnrollmentClass[];
+  disciplines = [] as IDisciplines[];
   students: IUser[] = [];
-  filteredStudents: IUser[] = [];
+  filteredStudents?: Observable<IUser[]>;
   selectedEnrollment: string | null = null;
-  isTeacher: boolean = false;
   viewMode: typeViewMode = 'read';
   gradeId: string | null = null;
 
@@ -58,11 +66,13 @@ export class GradeComponent implements OnInit {
     private studentService: StudentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private gradeService: GradeService
   ) {
     this.gradeForm = this.fb.group({
       teacher: ['', Validators.required],
       enrollment: ['', Validators.required],
+      discipline: ['', Validators.required],
       gradeName: ['', Validators.required],
       gradeDate: ['', Validators.required],
       student: ['', Validators.required],
@@ -76,29 +86,16 @@ export class GradeComponent implements OnInit {
     if (!paramGradeId) {
       this.viewMode = 'insert';
       this.gradeForm.enable();
-      //this.loadGradeData(this.gradeId);
-      //this.viewMode = 'read';
-      //this.gradeForm.disable();
+      this.gradeForm.get('gradeDate')?.setValue(moment().format('DD-MM-YYYY'));
     } else {
       this.gradeId = paramGradeId;
+      this.loadGradeData(this.gradeId);
+      const viewModeParam =
+        this.route.snapshot.queryParamMap.get('mode') || 'read';
+      this.viewMode = viewModeParam as typeViewMode;
+      if (this.viewMode === 'read') this.gradeForm.disable();
+      else this.gradeForm.enable();
     }
-    /* this.filteredStudents = this.gradeForm.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = typeof value === 'string' ? value : value?.name;
-        return name
-          ? this._filterStudents(name as string)
-          : this.students.slice();
-      })
-    ); */
-  }
-
-  private _filterStudents(value: string): IUser[] {
-    const filterValue = value.toLowerCase();
-
-    return this.students.filter((student) =>
-      student.name.toLowerCase().includes(filterValue)
-    );
   }
 
   loadInitialData() {
@@ -109,8 +106,8 @@ export class GradeComponent implements OnInit {
     } else if (this.authService.isTeacher()) {
       const currentTeacher = this.authService.getCurrentUser();
       this.teachers = [currentTeacher!];
-      this.isTeacher = true;
       this.gradeForm.get('teacher')?.setValue(currentTeacher.id);
+      this.gradeForm.get('teacher')?.disable();
     }
 
     this.enrollmentService
@@ -122,12 +119,32 @@ export class GradeComponent implements OnInit {
 
     this.studentService.getStudents().subscribe((data: IUser[]) => {
       this.students = data;
-      this.filteredStudents = data;
+      this.filteredStudents = this.gradeForm.get('student')!.valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filter(value || ''))
+      );
+    });
+
+    this.enrollmentService
+      .getDisciplines()
+      .subscribe((data: IDisciplines[]) => {
+        this.disciplines = data;
+      });
+  }
+
+  loadGradeData(gradeId: string | null) {
+    this.gradeService.getGradeById(gradeId!).subscribe((gradeData) => {
+      this.gradeForm.patchValue(gradeData);
     });
   }
 
-  displayFn(user: IUser): string {
-    return user && user.name ? user.name : '';
+  private _filter(value: string): any[] {
+    if (typeof value !== 'string') return [];
+    console.log('Value:', value, typeof value);
+    const filterValue = value.toLowerCase();
+    return this.students.filter((student) =>
+      student.name.toLowerCase().includes(filterValue)
+    );
   }
 
   onEnrollmentSelected() {
@@ -135,10 +152,31 @@ export class GradeComponent implements OnInit {
   }
 
   onSave() {
-    if (this.gradeForm.valid) {
-      // Save logic here
-      alert('Avaliação cadastrada com sucesso!');
+    if (this.gradeForm.invalid) {
+      this.gradeForm.markAllAsTouched(this.gradeForm.controls);
+      alert('Existem campos inválidos, revise e tente novamente');
+      return;
     }
+
+    const gradeData = this.gradeForm.value;
+    if (this.viewMode === 'edit') {
+      gradeData.id = this.gradeId;
+      this.gradeService.setGrade(gradeData).subscribe(() => {
+        this.snackBar.open('Nota atualizada com sucesso!', 'Fechar', {
+          duration: 3000,
+        });
+        this.gradeForm.disable();
+      });
+    } else {
+      this.gradeService.addGrade(gradeData).subscribe((newGrade) => {
+        this.snackBar.open('Nota cadastrada com sucesso!', 'Fechar', {
+          duration: 3000,
+        });
+        this.gradeId = newGrade.id;
+        this.gradeForm.disable();
+      });
+    }
+    this.cancelEdit();
   }
 
   enableEdit() {
@@ -159,11 +197,15 @@ export class GradeComponent implements OnInit {
 
   onDelete() {
     if (!this.gradeId) return;
-    this.userService.deleteUser(this.gradeId).subscribe(() => {
-      this.snackBar.open('Docente excluído com sucesso!', 'Fechar', {
+    this.gradeService.deleteGrade(this.gradeId).subscribe(() => {
+      this.snackBar.open('Nota excluída com sucesso!', 'Fechar', {
         duration: 3000,
       });
       this.gradeForm.reset();
     });
+  }
+
+  displayStudentsFn(student: IUser): string {
+    return student && student.name ? student.name : '';
   }
 }
