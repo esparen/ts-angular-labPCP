@@ -37,21 +37,8 @@ export class StudentService {
     );
   }
 
-  getEnrollments(studentId: number): Observable<IStudentEnrollment[]> {
-    return this.enrollmentService.getEnrollmentsByStudentId(studentId).pipe(
-      switchMap((enrollments) => {
-        return forkJoin(
-          enrollments.map((enrollment) => 
-            this.enrollmentService.getDisciplineById(enrollment.subjectId).pipe(
-              map((discipline) => ({
-                ...enrollment,
-                materiaName: discipline.name,
-              }))
-            )
-          )
-        );
-      })
-    );
+  getEnrollments(studentId: number): Observable<IEnrollmentClass[]> {
+    return this.enrollmentService.getEnrollmentsByStudentId(studentId); 
   }
 
 

@@ -13,10 +13,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {
   StudentService,
   IStudentGrade,
-  IStudentEnrollment,
 } from '../../core/services/student.service';
 import { UserService, IUser as IDatabaseUser } from '../../core/services/user.service';
-import { EnrollmentService } from '../../core/services/enrollment.service';
+import { EnrollmentService, IEnrollmentClass } from '../../core/services/enrollment.service';
 
 @Component({
   selector: 'app-home',
@@ -43,7 +42,7 @@ export class HomeComponent {
   students = [] as IDatabaseUser[];
   teachers = [] as IDatabaseUser[];
   studentGrades = [] as IStudentGrade[];
-  studentEnrollments = [] as IStudentEnrollment[];
+  studentEnrollments = [] as IEnrollmentClass[];
   extraSubjects = ['Matemática', 'Química', 'Física']; // Mocks para materias extras
 
   constructor(
@@ -65,6 +64,8 @@ export class HomeComponent {
     this.studentService
       .getEnrollments(this.currentUser!.id)
       .subscribe((subjects) => {
+        console.log('this.studentEnrollments', this.studentEnrollments);
+        
         this.studentEnrollments = subjects.slice(0, 3);
       });
     this.studentService

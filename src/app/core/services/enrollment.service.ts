@@ -7,7 +7,7 @@ export interface IEnrollmentClass {
   name: string;
   teacherId: number; 
   studentIds: number[]; 
-  subjectId: number;
+  subjectId?: number;
   courseId: number;
 }
 export interface IDisciplines{
@@ -72,7 +72,7 @@ export class EnrollmentService {
         map((classes) =>{
           return classes.filter((enrollment) =>
           {
-            const response = enrollment.studentIds.includes(studentId);
+            const response = enrollment.studentIds.includes(Number(studentId));
             return response
           }
           );
