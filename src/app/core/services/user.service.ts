@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface IUser {
-  id: number;
+  id: string;
   name: string;
-  papelId: number;
+  papelId: string;
   password: string;
   image?: string;
-  age?: number;
+  age?: string;
   phone?: string;
   email?: string;
 }
@@ -25,7 +25,7 @@ export class UserService {
     return this.http.get<IUser[]>(this.apiUrl);
   }
 
-  getUserById(id: number): Observable<IUser> {
+  getUserById(id: string): Observable<IUser> {
     return this.http.get<IUser>(`${this.apiUrl}/${id}`);
   }
 
@@ -33,7 +33,7 @@ export class UserService {
     return this.http.get<IUser[]>(`${this.apiUrl}?papelId=${2}`);
   }
 
-  getTeacherById(teacherId: number) {
+  getTeacherById(teacherId: string) {
     return this.getUserById(teacherId);
   }
 
@@ -45,7 +45,7 @@ export class UserService {
     return this.http.put<IUser>(`${this.apiUrl}/${user.id}`, user);
   }
 
-  deleteUser(id: number): Observable<void> {
+  deleteUser(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
@@ -53,17 +53,17 @@ export class UserService {
     return this.getUsers().pipe(map((users) => users.length));
   }
 
-  getUsersByRole(papelId: number): Observable<IUser[]> {
+  getUsersByRole(papelId: string): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.apiUrl}?papelId=${papelId}`);
   }
 
-  getUserCountByRole(roleId: number): Observable<number> {
+  getUserCountByRole(roleId: string): Observable<number> {
     return this.http
       .get<IUser[]>(`${this.apiUrl}?papelId=${roleId}`)
       .pipe(map((users) => users.length));
   }
 
-  searchUsersByName(name: number): Observable<IUser[]> {
+  searchUsersByName(name: string): Observable<IUser[]> {
     return this.http.get<IUser[]>(`${this.apiUrl}?name_like=${name}`);
   }
 }

@@ -80,7 +80,7 @@ export class HomeComponent {
       this.students = data;
       this.statistics.push({ title: 'Alunos', detail: this.students.length });
     });
-    this.userService.getUsersByRole(2).subscribe((data) => {
+    this.userService.getUsersByRole("2").subscribe((data) => {
       this.teachers = data;
       this.statistics.push({ title: 'Docentes', detail: this.teachers.length });
     });

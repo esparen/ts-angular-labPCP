@@ -6,7 +6,7 @@ import { IUser as IDbUser } from './user.service';
 
 
 interface IDbRole {
-  id : number;
+  id : string;
   name: string; 
 }
 
@@ -58,11 +58,11 @@ export class AuthService {
   private fetchUserRole(user: IDbUser): Observable<IUser> {
     return this.http.get<IDbRole[]>(this.apiRolesUrl).pipe(
       map((roles) =>
-        roles.find((role) => Number(role.id) === Number(user.papelId))
+        roles.find((role) => role.id === user.papelId)
       ),
       map((role) => ({
         ...user,
-        role: role || { id: 0, name: 'Unknown' },
+        role: role || { id: "0", name: 'Unknown' },
       }))
     );
   }

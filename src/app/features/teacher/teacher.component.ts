@@ -43,7 +43,7 @@ export class TeacherComponent implements OnInit {
   maritalStatuses = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo'];
   subjects = [] as IDisciplines[];
   viewMode: typeViewMode = 'read';
-  teacherId: number | null = null;
+  teacherId: string | null = null;
   isEditMode: boolean = false;
 
   constructor(
@@ -62,7 +62,7 @@ export class TeacherComponent implements OnInit {
       this.viewMode = 'insert';
       this.teacherForm.enable();
     } else {
-      this.teacherId = Number(paramTeacherId);
+      this.teacherId = paramTeacherId;
       this.loadTeacherData(this.teacherId);
       const viewModeParam =
         this.route.snapshot.queryParamMap.get('mode') || 'read';
@@ -111,7 +111,7 @@ export class TeacherComponent implements OnInit {
     });
   }
 
-  loadTeacherData(teacherId: number) {
+  loadTeacherData(teacherId: string) {
     this.userService.getUserById(teacherId).subscribe((teacher) => {
       this.teacherForm.patchValue(teacher);
     });
