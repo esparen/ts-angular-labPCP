@@ -2,22 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
+import { IUser as IDbUser } from './user.service';
 
-interface IDbUser {
-  id: number;
-  name: string;
-  password: string;
-  papelId: number;
-}
 
 interface IDbRole {
   id : number;
   name: string; 
 }
 
-export interface IUser {
-  id: number;
-  name: string;
+export interface IUser extends IDbUser {
   role: IDbRole;
 }
 
@@ -68,8 +61,7 @@ export class AuthService {
         roles.find((role) => Number(role.id) === Number(user.papelId))
       ),
       map((role) => ({
-        id: user.id,
-        name: user.name,
+        ...user,
         role: role || { id: 0, name: 'Unknown' },
       }))
     );
@@ -79,12 +71,25 @@ export class AuthService {
     localStorage.removeItem(this.currentUserKey);
   }
 
-  getCurrentUser(): IUser | null {
+  getCurrentUser(): IUser {
     const userJson = localStorage.getItem(this.currentUserKey);
+    if (!userJson) {
+      throw new Error('Error retrieving the current user details: no user found in local storage');
+    }
     return userJson ? JSON.parse(userJson) : null;
   }
 
   isAuthenticated(): boolean {
     return !!this.getCurrentUser();
+  }
+
+  isAdmin() {
+    const user = this.getCurrentUser();
+    return user?.role.name === 'Admin';
+  }
+
+  isTeacher() {
+    const user = this.getCurrentUser();
+    return user?.role.name === 'Docente';
   }
 }
