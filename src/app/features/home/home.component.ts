@@ -127,7 +127,7 @@ export class HomeComponent {
     return this.currentUser?.role?.name === 'Aluno';
   }
 
-  onViewGradeDetails(gradeId: number) {
+  onViewGradeDetails(gradeId: string) {
     this.router.navigate(['/grade', gradeId]);
   }
 }

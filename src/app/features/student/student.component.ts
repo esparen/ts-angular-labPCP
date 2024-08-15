@@ -54,7 +54,7 @@ export class StudentComponent implements OnInit {
   maritalStatuses = ['Solteiro', 'Casado', 'Divorciado', 'Viúvo'];
   enrollments = [] as IEnrollmentClass[];
   viewMode: typeViewMode = 'read';
-  studentId: number | null = null;
+  studentId: string | null = null;
   isEditMode: boolean = false;
 
   constructor(
@@ -74,7 +74,7 @@ export class StudentComponent implements OnInit {
       this.viewMode = 'insert';
       this.studentForm.enable();
     } else {
-      this.studentId = Number(paramStudentId);
+      this.studentId = paramStudentId;
       this.loadStudentData(this.studentId);
       const viewModeParam = this.route.snapshot.queryParamMap.get('mode') || 'read';
       this.viewMode = viewModeParam as typeViewMode;
@@ -122,7 +122,7 @@ export class StudentComponent implements OnInit {
     });
   }
 
-  loadStudentData(studentId: number) {
+  loadStudentData(studentId: string) {
     this.userService.getUserById(studentId).subscribe((student) => {
       this.studentForm.patchValue(student);
     });

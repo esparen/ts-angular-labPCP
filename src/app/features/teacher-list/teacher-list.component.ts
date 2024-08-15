@@ -49,7 +49,7 @@ export class TeacherListComponent implements OnInit {
     }
   }
 
-  viewTeacher(id: number) {
+  viewTeacher(id: string) {
     this.router.navigate(['/teacher'], {
       queryParams: { id: id, mode: 'edit' },
     });
