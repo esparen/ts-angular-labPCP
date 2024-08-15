@@ -4,6 +4,7 @@ import { HomeComponent } from './features/home/home.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 import { AdminOrTeacherGuard } from './core/guards/admin-or-teacher.guard';
+import { isStudentGuard } from './core/guards/is-student.guard';
 import { TeacherComponent } from './features/teacher/teacher.component';
 
 import { GradeListComponent } from './features/grade-list/grade-list.component';
@@ -30,7 +31,7 @@ export const routes: Routes = [
   {
     path: 'grade-list',
     component: GradeListComponent,
-    canActivate: [AuthGuard] && [!AdminOrTeacherGuard],
+    canActivate: [AuthGuard] && [isStudentGuard],
   },
   {
     path: 'student',
