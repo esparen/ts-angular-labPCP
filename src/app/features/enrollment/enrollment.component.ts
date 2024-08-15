@@ -6,7 +6,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { IUser, UserService } from '../../core/services/user.service';
+import { UserService } from '../../core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import {
@@ -16,7 +16,6 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   EnrollmentService,
-  IDisciplines,
 } from '../../core/services/enrollment.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { IUser } from '../../core/interfaces/user.interface';
 
 type typeViewMode = 'read' | 'insert' | 'edit';
 

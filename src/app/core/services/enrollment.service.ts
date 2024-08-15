@@ -6,7 +6,7 @@ export interface IEnrollmentClass {
   id: string;
   name: string;
   teacherId: string; 
-  studentIds: string[]; 
+  studentIds?: string[]; 
   subjectId?: string;
   courseId: string;
 }
@@ -66,7 +66,11 @@ export class EnrollmentService {
     return this.http.get<IEnrollmentClass[]>(this.apiUrl).pipe(
       map((classes) => {
         return classes.filter((enrollment) => {
-          const response = enrollment.studentIds.includes(studentId);
+          console.log('again', enrollment.studentIds, "studentId:", studentId, typeof studentId);
+          
+          const response = enrollment.studentIds?.includes(studentId);
+          console.log('response:', response);
+          
           return response;
         });
       })

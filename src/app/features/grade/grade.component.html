@@ -1,1 +1,93 @@
-<p>grade works!</p>
+<div class="grade-registration-container">
+  <!-- Class Selection Section -->
+   <div class="form-header">
+    <h2 class="form-title">Cadastro de Avaliação / Notas</h2>
+    <div class="form-actions">
+      <button mat-icon-button  [disabled]="!(viewMode === 'read')" (click)="enableEdit()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button [disabled]="!(viewMode === 'read')" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Grade Form -->
+  
+  <form [formGroup]="gradeForm">
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Selecionar Turma</mat-label>
+        <mat-select formControlName="enrollment" [(ngModel)]="selectedEnrollment" (selectionChange)="onEnrollmentSelected()">
+          <mat-option *ngFor="let enrollment of enrollments" [value]="enrollment.id">
+            {{ enrollment.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+      <!-- Professor -->
+      <mat-form-field appearance="fill">
+        <mat-label>Professor</mat-label>
+        <mat-select formControlName="teacher" [disabled]="isTeacher">
+          <mat-option *ngFor="let teacher of teachers" [value]="teacher.id">
+            {{ teacher.name }}
+          </mat-option>
+        </mat-select>
+        <!-- <app-form-error [control]="gradeForm.get('teacher')"></app-form-error> -->
+      </mat-form-field>
+    </div>
+    <div class="form-row"></div>
+
+    <!-- Subject Name -->
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Nome da Matéria</mat-label>
+      <mat-select formControlName="subject">
+        <mat-option *ngFor="let subject of subjects" [value]="subject.id">
+          {{ subject.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <div class="form-row">
+      <!-- Grade Name -->
+      <mat-form-field appearance="fill">
+        <mat-label>Nome da Avaliação</mat-label>
+        <input matInput formControlName="gradeName" />
+      </mat-form-field>
+    
+
+       
+    <mat-form-field appearance="fill">
+      <mat-label>Data da Avaliação</mat-label>
+      <input matInput formControlName="gradeDate" />
+      <!-- <input matInput [ngxMatDatetimePicker]="picker" formControlName="gradeDate" />
+      <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> -->
+      
+    </mat-form-field>
+
+    
+
+    <mat-form-field appearance="fill">
+      <mat-label>Aluno</mat-label>
+      <input type="text" matInput formControlName="student" > <!--  [matAutocomplete]="auto"> -->
+      <!-- <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let student of filteredStudents" [value]="student.id">
+          {{ student.name }}
+        </mat-option>
+      </mat-autocomplete> -->
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Nota Avaliação</mat-label>
+      <input matInput formControlName="grade" type="number" min="0" max="10" />
+    </mat-form-field>
+    </div>
+
+    <div class="form-footer">
+      <button *ngIf="viewMode !== 'read'" mat-raised-button color="primary" (click)="cancelEdit()">Cancelar</button>
+      <button *ngIf="viewMode !== 'read'" mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+    </div>
+  </form>
+</div>

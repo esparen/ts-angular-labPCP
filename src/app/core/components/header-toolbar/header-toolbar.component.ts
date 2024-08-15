@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, IUser } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
+import { IUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-header-toolbar',
