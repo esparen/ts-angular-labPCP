@@ -24,8 +24,8 @@ export class GradeService {
     return this.http.post<IGrade>(this.apiUrl, grade);
   }
 
-  setGrade(id: string, grade: IGrade): Observable<IGrade> {
-    return this.http.put<IGrade>(`${this.apiUrl}/${id}`, grade);
+  setGrade(grade: IGrade): Observable<IGrade> {
+    return this.http.put<IGrade>(`${this.apiUrl}/${grade.id}`, grade);
   }
 
   deleteGrade(id: string): Observable<void> {
