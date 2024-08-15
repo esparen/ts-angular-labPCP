@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService, IUser } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -14,8 +14,9 @@ import {
   StudentService,
   IStudentGrade,
 } from '../../core/services/student.service';
-import { UserService, IUser as IDatabaseUser } from '../../core/services/user.service';
+import { UserService } from '../../core/services/user.service';
 import { EnrollmentService, IEnrollmentClass } from '../../core/services/enrollment.service';
+import { IUser } from '../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -39,8 +40,8 @@ export class HomeComponent {
   studentSearchTerm: string = '';
   currentUser: IUser | null = null;
   statistics = [] as { title: string; detail: number }[];
-  students = [] as IDatabaseUser[];
-  teachers = [] as IDatabaseUser[];
+  students = [] as IUser[];
+  teachers = [] as IUser[];
   studentGrades = [] as IStudentGrade[];
   studentEnrollments = [] as IEnrollmentClass[];
   extraSubjects = ['Matemática', 'Química', 'Física']; // Mocks para materias extras
@@ -61,12 +62,13 @@ export class HomeComponent {
   }
 
   loadStudentData() {
+    console.log('loadStudentData', this.currentUser!.id);
+    
     this.studentService
       .getEnrollments(this.currentUser!.id)
-      .subscribe((subjects) => {
-        console.log('this.studentEnrollments', this.studentEnrollments);
-        
-        this.studentEnrollments = subjects.slice(0, 3);
+      .subscribe((enrollments) => {        
+        console.log("enrollments do aluno:" , enrollments);
+        this.studentEnrollments = enrollments.slice(0, 3);
       });
     this.studentService
       .getGradesByOrder(this.currentUser!.id, 'desc', 3)

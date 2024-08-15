@@ -1,1 +1,16 @@
-<p>grade-list works!</p>
+<div class="list-section">
+  <div class="form-header">
+    <h2 class="form-title">Lista de notas</h2>
+  </div>
+</div>
+<div class="grade-list-container">
+  <div class="grade-card-container">
+    <mat-card *ngFor="let grade of filteredGrades" class="grade-card">
+      <mat-card-title>{{ grade.materiaName }}</mat-card-title>
+      <mat-card-content>
+        <p><strong></strong> {{ grade.name }} Nota: {{ grade.grade }}</p>
+        <p><strong>Data:</strong> {{ grade.date }} : {{ grade.grade }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

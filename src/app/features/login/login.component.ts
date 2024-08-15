@@ -11,9 +11,10 @@ import {
   IDialogData,
 } from '../../core/components/dialog/dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import { AuthService, IUser } from '../../core/services/auth.service';
+import { AuthService} from '../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { IUser } from '../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -90,7 +91,7 @@ export class LoginComponent {
       .subscribe((user: IUser | null) => {
         if (user) {
           this.snackBar.open(
-            `Bem vinda, ${user.name}! Papel: ${user.role.name}`,
+            `Bem vinda, ${user.name}! Papel: ${user.role?.name}`,
             'Close',
             { duration: 3000 }
           ).afterDismissed().subscribe(() => {

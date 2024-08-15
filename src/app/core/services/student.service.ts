@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
-import { UserService, IUser as IStudent } from './user.service';
+import { UserService } from './user.service';
 import { EnrollmentService, IEnrollmentClass, IDisciplines } from './enrollment.service';
-import { GradeService, IGrade } from './grade.service';
+import { GradeService } from './grade.service';
+import { IUser as IStudent } from '../interfaces/user.interface';
+import { IGrade } from '../interfaces/grade.interface';
 
 export interface IStudentEnrollment extends IEnrollmentClass {
   materiaName: string
@@ -11,6 +13,7 @@ export interface IStudentEnrollment extends IEnrollmentClass {
 
 export interface IStudentGrade extends IGrade {
   materiaName: string;
+  professorName?: string;
 }
 
 @Injectable({
@@ -37,7 +40,11 @@ export class StudentService {
   }
 
   getEnrollments(studentId: string): Observable<IEnrollmentClass[]> {
-    return this.enrollmentService.getEnrollmentsByStudentId(studentId); 
+    const response =
+      this.enrollmentService.getEnrollmentsByStudentId(studentId);
+    console.log('getEnrollments', response);
+    
+    return response; 
   }
 
 
@@ -62,6 +69,8 @@ export class StudentService {
     disciplines: IDisciplines[]
   ): IStudentGrade {
     const discipline = disciplines.find((d) => {
+      console.log(d.id == grade.materiaId, d.id, grade.materiaId);
+      
       return d.id == grade.materiaId;
     });
     return {

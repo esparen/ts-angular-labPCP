@@ -2,17 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
-import { IUser as IDbUser } from './user.service';
-
-
-interface IDbRole {
-  id : string;
-  name: string; 
-}
-
-export interface IUser extends IDbUser {
-  role: IDbRole;
-}
+import { IUser } from '../interfaces/user.interface';
+import { IRole } from '../interfaces/role.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  signIn(username: string, password: string): Observable<IUser | null> {
+  signIn(username: string, password: string): Observable<IUser | null> {    
     const userWithRole = this.findUser(username, password).pipe(
       switchMap((user) => (user ? this.fetchUserRole(user) : of(null))),
       catchError((error) => {
@@ -43,29 +34,33 @@ export class AuthService {
   private findUser(
     username: string,
     password: string
-  ): Observable<IDbUser | null> {
-    return this.http.get<IDbUser[]>(this.apiUsersUrl).pipe(
+  ): Observable<IUser | null> {
+    return this.http.get<IUser[]>(this.apiUsersUrl).pipe(
       map(
-        (users) =>
-          users.find(
+        (users) => {
+          return users.find(
             (user) => user.name === username && user.password === password
           ) || null
+        }
       ),
       catchError(() => of(null))
     );
   }
 
-  private fetchUserRole(user: IDbUser): Observable<IUser> {
-    return this.http.get<IDbRole[]>(this.apiRolesUrl).pipe(
-      map((roles) =>
-        roles.find((role) => role.id === user.papelId)
-      ),
+  private fetchUserRole(user: IUser): Observable<IUser> {
+    return this.http.get<IRole[]>(this.apiRolesUrl).pipe(
+      map((roles) => roles.find((role) => {
+        console.log(role.id, user.papelId, role.id === user.papelId);
+        
+        return role.id === user.papelId
+      })),
       map((role) => ({
         ...user,
-        role: role || { id: "0", name: 'Unknown' },
+        role: role || { id: '0', name: 'Unknown' },
       }))
     );
   }
+
 
   logOut(): void {
     localStorage.removeItem(this.currentUserKey);
@@ -85,11 +80,11 @@ export class AuthService {
 
   isAdmin() {
     const user = this.getCurrentUser();
-    return user?.role.name === 'Admin';
+    return user?.role?.name === 'Admin';
   }
 
   isTeacher() {
     const user = this.getCurrentUser();
-    return user?.role.name === 'Docente';
+    return user?.role?.name === 'Docente';
   }
 }
