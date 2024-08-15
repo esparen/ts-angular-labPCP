@@ -310,21 +310,27 @@
       "id": "1",
       "usuarioId": "3",
       "materiaId": "1",
-      "nota": "10",
+      "professorId": "10",
+      "name": "nota final",
+      "grade": "10",
       "date": "01/10/2024"
     },
     {
       "id": "2",
       "usuarioId": "3",
       "materiaId": "2",
-      "nota": "9",
+      "professorId": "10",
+      "name": "nota parcial 1",
+      "grade": "9",
       "date": "01/10/2024"
     },
     {
       "id": "3",
       "usuarioId": "3",
       "materiaId": "3",
-      "nota": "8",
+      "professorId": "10",
+      "name": "nota parcial 2",
+      "grade": "8",
       "date": "01/10/2024"
     }
   ]

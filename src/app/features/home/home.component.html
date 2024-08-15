@@ -6,7 +6,7 @@
     <mat-card *ngFor="let grade of studentGrades" class="student-card" (click)="onViewGradeDetails(grade.id)">
       <mat-card-header>
         <mat-card-title>{{ grade.materiaName }}</mat-card-title>
-        <mat-card-subtitle> <p>Nota: {{ grade.nota }}</p></mat-card-subtitle>
+        <mat-card-subtitle> <p>Nota: {{ grade.grade }}</p></mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         data: {{ grade.date || null }}
