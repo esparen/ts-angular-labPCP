@@ -303,6 +303,23 @@
       "dateEnd": "2000-01-01",
       "timeStart": "18:00",
       "teacher": "12"
+    },
+    {
+      "id": "11a9",
+      "teacher": 11,
+      "enrollment": "cf44",
+      "discipline": "1",
+      "gradeName": "teste",
+      "gradeDate": "01012000",
+      "student": {
+        "id": "1",
+        "name": "Alice De Santiago",
+        "papelId": "3",
+        "password": "123456",
+        "age": "20",
+        "phone": "123456789"
+      },
+      "grade": 9
     }
   ],
   "nota": [
@@ -332,6 +349,23 @@
       "name": "nota parcial 2",
       "grade": "8",
       "date": "01/10/2024"
+    },
+    {
+      "id": "8df1",
+      "teacher": 11,
+      "enrollment": "cf44",
+      "discipline": "1",
+      "gradeName": "teste",
+      "gradeDate": "01012000",
+      "student": {
+        "id": "1",
+        "name": "Alice De Santiago",
+        "papelId": "3",
+        "password": "123456",
+        "age": "20",
+        "phone": "123456789"
+      },
+      "grade": 9
     }
   ]
 }
