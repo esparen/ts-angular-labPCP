@@ -74,9 +74,6 @@
 
       <mat-divider></mat-divider>
       <mat-list-item>
-        <p>Usuário: {{user?.name}} ({{user?.role?.name}})</p>
-      </mat-list-item>
-      <mat-list-item>
         <button mat-button (click)="logout()">
           <mat-icon>logout</mat-icon>
           <span *ngIf="opened">Sair</span>
