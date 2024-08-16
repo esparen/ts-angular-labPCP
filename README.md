@@ -1,27 +1,54 @@
-# TsAngularLabPCP
+# Aang - Gestão Educacional
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
+## Descrição do Projeto
 
-## Development server
+O **Aang - Gestão Educacional** é uma aplicação web desenvolvida para facilitar a gestão educacional em instituições de ensino. O sistema oferece funcionalidades para gerenciar docentes, alunos, turmas e notas, proporcionando uma interface amigável e intuitiva para administradores e professores. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Problema que Resolve
 
-## Code scaffolding
+A aplicação resolve o problema da complexidade na gestão de informações acadêmicas, como o cadastro e controle de docentes, alunos, turmas e avaliações. Ela centraliza esses dados em um único sistema, permitindo um gerenciamento eficiente e organizado, além de garantir que apenas usuários autorizados possam acessar ou modificar certas informações.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias Utilizadas
 
-## Build
+### Backend
+- **JSON Server:** Utilizado como backend fake para simular operações CRUD (Create, Read, Update, Delete) e armazenar os dados do sistema.
+- **Node.js:** Ambiente de execução para o servidor backend e gerenciamento de pacotes com NPM.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Frontend
+- **Angular 18:** Framework utilizado para construir a aplicação SPA (Single Page Application).
+- **Angular Material:** Biblioteca de componentes UI para Angular, utilizada para criar uma interface de usuário consistente e responsiva.
+- **RxJS:** Biblioteca para programação reativa, utilizada em conjunto com Angular para manipulação de fluxos de dados assíncronos.
+- **TypeScript:** Linguagem utilizada para desenvolvimento do frontend, com tipagem estática para maior segurança e qualidade do código.
 
-## Running unit tests
+### Ferramentas de Desenvolvimento
+- **Visual Studio Code:** Editor de código utilizado durante o desenvolvimento.
+- **Git:** Sistema de controle de versão utilizado para o gerenciamento do código-fonte.
+- **Trello:** Plataforma utilizada para organização das tarefas do projeto no formato KANBAN.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Estrutura da Aplicação
+A aplicação é organizada em módulos, componentes e serviços, facilitando a manutenção e escalabilidade. 
 
-## Running end-to-end tests
+## Como Executar o Projeto
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Pré-requisitos
+- **Node.js** instalado na máquina (versão 14 ou superior).
+- **Angular CLI** instalado globalmente: `npm install -g @angular/cli`
+- **Git** para clonar o repositório.
 
-## Further help
+### Passos para Execução
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. **Clone o repositório:**
+git clone https://github.com/seu-usuario/ts-angular-labPCP.git
+cd /ts-angular-labPCP
+
+2. **Instale as dependências:**
+  npm install
+
+3. **Inicie o JSON Server:**
+  npm run json-server
+
+4. **Inicie a aplicação Angular:**
+    ng serve
+
+5. **Acesse a aplicação no navegador:**
+  http://localhost:4200
