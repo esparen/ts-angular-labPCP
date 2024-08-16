@@ -87,6 +87,12 @@ export class GradeComponent implements OnInit {
       this.viewMode = 'insert';
       this.gradeForm.enable();
       this.gradeForm.get('gradeDate')?.setValue(moment().format('DD-MM-YYYY'));
+      const paramStudentId = this.route.snapshot.queryParamMap.get('studentId');
+      if (paramStudentId) {
+        const targetStudent = this.studentService.getStudentById(paramStudentId).subscribe((student) => {
+          this.gradeForm.get('student')?.setValue(student);
+        });
+      }
     } else {
       this.gradeId = paramGradeId;
       this.loadGradeData(this.gradeId);
