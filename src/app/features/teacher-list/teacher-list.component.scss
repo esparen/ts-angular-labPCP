@@ -6,10 +6,48 @@ $quinary-color: #d6eadf;
 $sexenary-color: #e5c185;
 $septenary-color: #c7522a;
 
+
 :host {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Faz o container ocupar toda a altura da tela */
+  height: 100vh; 
+  background: #fff;
+  background-color: $quarternary-color;
+}
+
+.teacher-list-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: $quarternary-color;
+}
+
+.teacher-card-container {
+  padding: 16px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+mat-table {
+  width: 100%;
+}
+
+mat-header-cell, mat-cell {
+  padding: 8px;
+  text-align: center;
+}
+
+mat-header-row {
+  background-color: $primary-color;
+  color: white;
+}
+
+
+/* :host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
   background: #fff;
   background-color: $quarternary-color;
 }
@@ -78,3 +116,4 @@ $septenary-color: #c7522a;
 .teacher-card {
   width: 300px;
 }
+ */

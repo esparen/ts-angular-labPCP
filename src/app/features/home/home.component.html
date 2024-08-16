@@ -61,9 +61,8 @@
 
 <section id="student-listing" *ngIf="isCurrentUserAdmin() || isCurrentUserTeacher()">
   <mat-toolbar class="mat-toolbar">
-    <span>Pesquisar aluno:</span>
-    <mat-form-field>
-      <mat-label>Buscar</mat-label>
+    <mat-form-field appearance="fill">
+      <mat-label>Pesquisar aluno:</mat-label>
       <input
         matInput
         type="text"

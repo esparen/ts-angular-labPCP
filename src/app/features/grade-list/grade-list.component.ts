@@ -12,6 +12,7 @@ import { IGrade } from '../../core/interfaces/grade.interface';
 import { GradeService } from '../../core/services/grade.service';
 import { AuthService } from '../../core/services/auth.service';
 import { StudentService, IStudentGrade } from '../../core/services/student.service';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-grade-list',
@@ -23,6 +24,7 @@ import { StudentService, IStudentGrade } from '../../core/services/student.servi
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatTableModule,
   ],
   templateUrl: './grade-list.component.html',
   styleUrl: './grade-list.component.scss',
@@ -32,6 +34,7 @@ export class GradeListComponent implements OnInit {
   filteredGrades: IStudentGrade[] = [];
   searchQuery: string = '';
   student?: IUser;
+  displayedColumns: string[] = ['materiaName', 'name', 'grade', 'date'];
 
   constructor(
     private userService: UserService,

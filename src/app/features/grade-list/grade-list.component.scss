@@ -6,10 +6,11 @@ $quinary-color: #d6eadf;
 $sexenary-color: #e5c185;
 $septenary-color: #c7522a;
 
+
 :host {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Faz o container ocupar toda a altura da tela */
+  height: 100vh; 
   background: #fff;
   background-color: $quarternary-color;
 }
@@ -28,63 +29,30 @@ $septenary-color: #c7522a;
   }
 }
 
-
 .grade-list-container {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4rem;
-  align-items: center;
-  padding: 1rem 4rem 2rem 4rem;
   background-color: $quarternary-color;
-  
-
-
-  .grade-card-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4rem;
-    align-items: center;
-    padding: 1rem 4rem 2rem 4rem;
-    background-color: $quarternary-color;
-    
-
-    margin-bottom: 2rem;
-    @media (max-width: 481px) {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .grade-card {
-      border-radius: 8px;
-      box-shadow: 8px 8px 4px 0px rgba(0, 0, 0, 0.4);
-      min-width: 12rem;
-      min-height: 15rem;
-      max-width: 10rem;
-      max-height: 15rem;
-      padding-top: 1rem;
-      align-items: center;
-      align-content: center;
-      text-align: center;
-      border: 0.2rem solid teal;
-
-      img {
-      object-fit: cover;
-      width: 30%;
-      height: 30%;
-    }
-    }
-  }
 }
 
-.mat-form-field {
+.grade-card-container {
+  padding: 16px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+mat-table {
   width: 100%;
-  margin-bottom: 20px;
 }
 
-.grade-card {
-  width: 300px;
+mat-header-cell, mat-cell {
+  padding: 8px;
+  text-align: center;
+}
+
+mat-header-row {
+  background-color: $primary-color;
+  color: white;
 }

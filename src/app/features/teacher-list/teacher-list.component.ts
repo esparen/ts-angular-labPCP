@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { IUser as  ITeacher } from '../../core/interfaces/user.interface';
+import { MatTableModule } from '@angular/material/table';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { IUser as  ITeacher } from '../../core/interfaces/user.interface';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatTableModule,
   ],
   templateUrl: './teacher-list.component.html',
   styleUrl: './teacher-list.component.scss',
@@ -28,6 +30,7 @@ export class TeacherListComponent implements OnInit {
   teachers: ITeacher[] = [];
   filteredTeachers: ITeacher[] = [];
   searchQuery: string = '';
+  displayedColumns: string[] = ['id', 'name', 'phone', 'email', 'actions'];
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -52,7 +55,7 @@ export class TeacherListComponent implements OnInit {
 
   viewTeacher(id: string) {
     this.router.navigate(['/teacher'], {
-      queryParams: { id: id, mode: 'edit' },
+      queryParams: { id: id, mode: 'read' },
     });
   }
 }
